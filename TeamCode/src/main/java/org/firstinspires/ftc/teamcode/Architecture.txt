@@ -1,6 +1,7 @@
 Each subsystem needs to have these components:
     - Motors/Servos/Sensors necessary for that subsystem to run
     - A way to set the target/state of the subsytem (EX: target rpm for the flywheel)
+    - Periodic method, that takes in those values like rpm and outputs necessary flywheel rpm for example.
 
 Each subsystem will make up higher arching commands:
     - Use multiple subsystems, assign the states (sets rpm velocity)

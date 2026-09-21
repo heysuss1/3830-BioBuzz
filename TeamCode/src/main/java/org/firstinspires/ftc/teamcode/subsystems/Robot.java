@@ -4,11 +4,11 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Shooter;
-
 public class Robot {
     Drive driveTrain;
-    Shooter shooter;
+    Hood hood;
+    Flywheel flywheel;
+    Turret turret;
     Transfer transfer;
     Follower follower;
     public static Pose teleOpStartPose;

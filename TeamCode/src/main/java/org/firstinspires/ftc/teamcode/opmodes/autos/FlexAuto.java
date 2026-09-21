@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.autos;
+package org.firstinspires.ftc.teamcode.opmodes.autos;
 import static com.pedropathing.api.Paths.*;
 
 import com.pedropathing.api.PoseFactory;

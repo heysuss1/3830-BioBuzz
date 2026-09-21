@@ -1,11 +1,13 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Shooter;
+
 public class Robot {
-    DriveTrain driveTrain;
+    Drive driveTrain;
     Shooter shooter;
     Transfer transfer;
     Follower follower;

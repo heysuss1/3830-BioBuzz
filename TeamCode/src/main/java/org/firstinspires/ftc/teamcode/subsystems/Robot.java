@@ -13,7 +13,6 @@ public class Robot {
     Follower follower;
     public static Pose teleOpStartPose;
 
-
     public Robot(HardwareMap hwMap){
 //        follower = new Follower();
     }

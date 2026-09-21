@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-public class Drive {
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
+public class Drive {
+    public Drive(HardwareMap hwMap){
+
+    }
 }

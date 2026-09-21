@@ -16,15 +16,15 @@ public class Robot {
     Flywheel flywheel;
     Turret turret;
     Transfer transfer;
+
     Follower follower;
     public static Pose teleOpStartPose;
 
     public Robot(HardwareMap hwMap){
-//        follower = new Follower();
+        driveTrain = new Drive(hwMap);
+        hood = new Hood(hwMap);
+        flywheel = new Flywheel(hwMap);
+        turret = new Turret(hwMap);
+        transfer = new Transfer(hwMap);
     }
-
-    public static void setTeleOpStartPose(Pose startPose) {
-        teleOpStartPose = startPose;
-    }
-
 }

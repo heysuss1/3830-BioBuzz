@@ -4,6 +4,7 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.pedro.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
 import org.firstinspires.ftc.teamcode.subsystems.Flywheel;
 import org.firstinspires.ftc.teamcode.subsystems.Hood;
@@ -21,6 +22,7 @@ public class Robot {
     public static Pose teleOpStartPose;
 
     public Robot(HardwareMap hwMap){
+        follower = Constants.create(hwMap);
         driveTrain = new Drive(hwMap);
         hood = new Hood(hwMap);
         flywheel = new Flywheel(hwMap);

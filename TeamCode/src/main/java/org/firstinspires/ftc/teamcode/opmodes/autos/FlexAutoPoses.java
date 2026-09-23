@@ -4,7 +4,7 @@ import static com.pedropathing.api.Paths.*;
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.math.Pose;
 import com.pedropathing.paths.Path;
-public class FlexAuto {
+public class FlexAutoPoses {
         private final PoseFactory poseFactory = PoseFactory.degrees();
 
         private final Pose start = poseFactory.of(55.9664, 5.9128, 90);

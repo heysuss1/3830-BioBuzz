@@ -13,7 +13,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.controllers.PidfController;
 
-public class Shooter_OLD {
+private class Shooter_OLD {
+    //made this private cuz i dont want it to mess with other code
 
     public static final ShootParams.Region[] shootRegions = {
             //Region 0: pitch 25 degrees, y = 3718.987 + 4.966x

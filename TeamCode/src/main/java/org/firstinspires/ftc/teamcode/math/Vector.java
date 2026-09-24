@@ -43,7 +43,13 @@ public class Vector {
     }
 
     public double pitch() {
-        return Math.asin(this.z / this.abs());
+        double absolute = this.abs();
+
+        if (absolute < 1e-6) {
+            return 0;
+        }
+
+        return Math.asin(this.z / absolute);
     }
 
     public double yaw() {

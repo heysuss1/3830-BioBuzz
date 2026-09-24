@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode.math;
 
-import org.firstinspires.ftc.teamcode.math.Vector;
-
-import java.util.List;
 public class ShotCalculator
 {
     //UNITS: INCHES, SECONDS, ROTATIONS PER MINUTE, RADIANS
@@ -10,13 +7,13 @@ public class ShotCalculator
     //XYZ is cartesian
 
     //inputs
-    Vector hivePos = new Vector(0,0,0);
-    Vector robotPos = new Vector(0,0,0);
-    Vector robotVel = new Vector(0,0,0);
+    Vector hivePos;
+    Vector robotPos;
+    Vector robotVel;
 
-    //coefficents
+    //coefficients
     double k = 1; // ball velocity * k = RPM
-    //regression coefficents go here
+    //regression coefficients go here
 
     //outputs
     double rpm = 0;
@@ -43,17 +40,15 @@ public class ShotCalculator
         double yawTemp = Math.atan2( deltaPos.y(), deltaPos.x()  );
 
         //Convert to X,Y,Z so you can subtract robot movement
-        Vector ballVelTemp = Vector.rpyToXYZ(rpmTemp, pitchTemp, yawTemp);
+        double ballSpeed = rpmTemp / k;
+        Vector ballVelTemp = Vector.rpyToXYZ(ballSpeed, pitchTemp, yawTemp);
         Vector ballVel = ballVelTemp.minus(robotVel);
 
         //Convert back to R,P,Y
-        double absolute = ballVel.abs();
-        double x = ballVel.x();
-        double y = ballVel.y();
-        double z = ballVel.z();
-        this.rpm = absolute/k;
-        this.pitch = Math.asin(z/absolute);
-        this.yaw = Math.atan2(y, x);
+        double radius = ballVel.radius();
+        this.rpm = radius*k;
+        this.pitch = ballVel.pitch();
+        this.yaw = ballVel.yaw();
     }
 
     //regressions

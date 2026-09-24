@@ -8,9 +8,9 @@ import org.firstinspires.ftc.teamcode.controllers.PIDFF;
 public class Flywheel {
     private final DcMotorEx flyMotor;
     private final ElapsedTime timer;
-    private final PIDFF pidff = new PIDFF(0,0,0,0,0,0,0,);
+    private final PIDFF pidff = new PIDFF(0,0,0,0,0,0,0);
     private double targetRPM = 0.0;
-    private double lastTime = 0.0;
+    private double lastTime;
     private static final double TICKS_PER_REV = 28.0;
 
     public Flywheel(HardwareMap hwMap){
@@ -19,6 +19,7 @@ public class Flywheel {
         this.flyMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         this.timer = new ElapsedTime();
         this.timer.reset();
+        this.lastTime = this.timer.seconds();
     }
 
     public void setTargetRPM(double targetRPM) {
@@ -31,10 +32,12 @@ public class Flywheel {
     }
 
     public void updateFly(){
-        double dt = timer.seconds() - lastTime;
-        lastTime = timer.seconds();
-        double totalPower = pidff.calcPIDFF(getRPM(), targetRPM, dt, 0,0);
-        totalPower = Math.min(Math.max(totalPower, -1), 1); //clip power between -1 and 1
+        double currentTime = timer.seconds();
+        double dt = currentTime - lastTime;
+        lastTime = currentTime;
+
+        double totalPower = pidff.calcPIDFF(getRPM(), targetRPM, dt, 0, 0);
+        totalPower = Math.min(Math.max(totalPower, -1), 1);
         flyMotor.setPower(totalPower);
     }
 }

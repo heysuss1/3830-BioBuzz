@@ -40,8 +40,10 @@ public class PIDFF {
         }
         lastError = error;
 
-        integral += error * dt;
-        integral = Math.max(-integralMax, Math.min(integralMax, integral));
+        if (dt > 1e-6) {
+            integral += error * dt;
+            integral = Math.max(-integralMax, Math.min(integralMax, integral));
+        }
 
         return (kp * error) + (ki * integral) + (kd * derivative);
     }

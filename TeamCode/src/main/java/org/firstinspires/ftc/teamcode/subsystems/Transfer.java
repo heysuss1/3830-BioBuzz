@@ -80,14 +80,17 @@ public class Transfer {
                 raiseIntake();
                 intake.setPower(-INTAKE_SPEED);
                 transfer.setPower(-INTAKE_SPEED);
+                break;
             case INTAKE:
                 lowerIntake();
                 intake.setPower(INTAKE_SPEED);
                 transfer.setPower(UPTAKE_BLOCK_SPEED);
+                break;
             case UPTAKE:
                  raiseIntake();
                  intake.setPower(INTAKE_SPEED);
                  transfer.setPower(INTAKE_SPEED);
+                 break;
         }
     }
     public void setHoldMode(){

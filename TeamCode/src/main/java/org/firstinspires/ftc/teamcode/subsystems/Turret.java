@@ -18,8 +18,9 @@ public class Turret {
     private Double turretTarget = null;
     private static final class TurretParams {
         private static final double KP = 0.0, KI = 0.0, KD = 0.0, KF = 0.0, I_ZONE = 0.0;
-        private static final double GEAR_RATIO = 32.0/120.0;
+        private static final double GEAR_RATIO = 32.0/120.0, TICKS_PER_REVOLUTION = 28;
         //private static final double
+        private static final double MAX_TURRET_ROTATION = 10.0 * Math.PI / 9.0; //in each direction, in radians
 
     }
 
@@ -37,18 +38,37 @@ public class Turret {
     }
 
 
-    public void calcTurretDegrees(Double target) {
-        double turretTargetRaw = target - AimCalculator.getYaw();
+    public void calcTurretTarget(Double targetYaw, double currentYaw) {
+        double turretTargetRaw = targetYaw - currentYaw;
         double turretTargetModulo = modularConversion(turretTargetRaw);
 
-        //turretTarget = Range.clip(turretTargetModulo, -90, 90);
         telemetry.addData("Turret Target:", turretTargetRaw);
+        turretTarget = turretTargetRaw;
+    }
+
+    public void goToTurretTarget() {
+        turretMotor.setPower(turretController.calculate(turretTarget, getTurretRadians()));
+    }
+
+    public double getTurretRadians() {
+        double ticks = turretMotor.getCurrentPosition();
+        double motorRotations = ticks/TurretParams.TICKS_PER_REVOLUTION;
+        double turretRotations = motorRotations * TurretParams.GEAR_RATIO;
+        return 2 * Math.PI * turretRotations;
     }
 
     private static double modularConversion(double input) {
-        double x = input + Math.PI;
-        double floormod = x - 2 * Math.PI * Math.floor(x / (2 * Math.PI));
-        return floormod - Math.PI;
+        double a = TurretParams.MAX_TURRET_ROTATION;
+        double tau = 2 * Math.PI;
+        if (-a-tau < input && input < -a) {
+            return input - tau;
+        } else if (-a < input && input < a) {
+            return input;
+        } else if (a < input && input < a + tau) {
+            return input + tau;
+        } else {
+
+        }
     }
 
 

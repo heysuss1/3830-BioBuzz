@@ -7,6 +7,7 @@ public class ShotCalculator
     //XYZ is cartesian
 
     //inputs
+    //Positions are vectors from (0,0,0)
     Vector hivePos;
     Vector robotPos;
     Vector robotVel;

@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.math;
 
 //This has taken way too much time
-//Also i dont like how many if statements there are, but theres so many ways this can break and i dont
+//Also i don't like how many if statements there are, but theres so many ways this can break and i dont
 //know how to fix that other than if statements anyways, this probably wont work anyways, whatever
 public class Projectile {
     //UNITS: Inch, gram, second, radian (ISGR)

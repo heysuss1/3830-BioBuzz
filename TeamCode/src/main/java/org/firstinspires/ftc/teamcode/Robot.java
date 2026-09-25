@@ -4,6 +4,7 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
 import org.firstinspires.ftc.teamcode.subsystems.Flywheel;
 import org.firstinspires.ftc.teamcode.subsystems.Hood;
@@ -20,11 +21,11 @@ public class Robot {
     Follower follower;
     public static Pose teleOpStartPose;
 
-    public Robot(HardwareMap hwMap){
+    public Robot(HardwareMap hwMap, Telemetry telemetry){
         driveTrain = new Drive(hwMap);
-        hood = new Hood(hwMap);
+        hood = new Hood(hwMap, telemetry);
         flywheel = new Flywheel(hwMap);
-        turret = new Turret(hwMap);
+        turret = new Turret(hwMap, telemetry);
         transfer = new Transfer(hwMap);
     }
 }

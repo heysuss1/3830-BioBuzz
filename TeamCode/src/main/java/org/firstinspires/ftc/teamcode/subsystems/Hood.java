@@ -15,19 +15,18 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Robot;
 
 public class Hood {
     private HardwareMap hwMap;
     private Follower follower;
     private Telemetry telemetry;
-    private Robot robot;
     private final Servo pitchServo;
     private final AnalogInput pitchEncoder;
 
     public Double pitchTarget = null;
 
-    private static final class HoodParams{
-
+    private static final class HoodParams {
         //ALL TBD!!!
         public static final double MIN_PITCH_POS = 0;
         public static final double MAX_PITCH_POS = 1;
@@ -39,8 +38,7 @@ public class Hood {
 
 
 
-    public Hood(HardwareMap hwMap, Telemetry telemetry, Robot robot) {
-        this.robot = robot;
+    public Hood(HardwareMap hwMap, Telemetry telemetry) {
         this.hwMap = hwMap;
         this.telemetry = telemetry;
 

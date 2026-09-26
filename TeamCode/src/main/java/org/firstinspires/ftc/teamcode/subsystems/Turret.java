@@ -16,6 +16,7 @@ public class Turret {
     private DcMotorEx turretMotor;
     private PidfController turretController;
     private Double turretTarget = null;
+    private int turretLayer;
     private static final class TurretParams {
         private static final double KP = 0.0, KI = 0.0, KD = 0.0, KF = 0.0, I_ZONE = 0.0;
         private static final double GEAR_RATIO = 32.0/120.0, TICKS_PER_REVOLUTION = 28;
@@ -35,15 +36,18 @@ public class Turret {
 
         turretController = new PidfController(TurretParams.KP, TurretParams.KI, TurretParams.KD, TurretParams.KF, TurretParams.I_ZONE);
 
+        turretLayer = 0;
     }
 
 
-    public void calcTurretTarget(Double targetYaw, double currentYaw) {
+    public double calcTurretTarget(Double targetYaw, double currentYaw) {
         double turretTargetRaw = targetYaw - currentYaw;
-        double turretTargetModulo = modularConversion(turretTargetRaw);
+        double turretTargetTransformed = layeredTurretTransform(turretTargetRaw, turretLayer);
 
-        telemetry.addData("Turret Target:", turretTargetRaw);
-        turretTarget = turretTargetRaw;
+        telemetry.addData("Turret Target Raw:", turretTargetRaw);
+        telemetry.addData("Turret Target Transformed:", turretTargetTransformed);
+        turretTarget = turretTargetTransformed;
+        return turretTargetTransformed;
     }
 
     public void goToTurretTarget() {
@@ -57,21 +61,15 @@ public class Turret {
         return 2 * Math.PI * turretRotations;
     }
 
-    private static double modularConversion(double input) {
+    private double layeredTurretTransform(double x, int turretLayer) {
         double a = TurretParams.MAX_TURRET_ROTATION;
-        double tau = 2 * Math.PI;
-        if (-a-tau < input && input < -a) {
-            return input - tau;
-        } else if (-a < input && input < a) {
-            return input;
-        } else if (a < input && input < a + tau) {
-            return input + tau;
-        } else {
-
-        }
+        x -= turretLayer * 2 * Math.PI;
+        if (x < -a)
+            this.turretLayer--;
+        if (x > a)
+            this.turretLayer++;
+        return x;
     }
-
-
 
 
 }

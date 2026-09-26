@@ -39,6 +39,14 @@ public class Turret {
         turretLayer = 0;
     }
 
+    public void setTurretTarget(Double turretTarget) {
+            this.turretTarget = turretTarget;
+    }
+
+    public Double getTurretTarget() {
+        return this.turretTarget;
+    }
+
 
     public double calcTurretTarget(Double targetYaw, double currentYaw) {
         double turretTargetRaw = targetYaw - currentYaw;

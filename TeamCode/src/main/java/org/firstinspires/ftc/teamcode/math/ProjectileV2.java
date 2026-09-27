@@ -1,0 +1,189 @@
+package org.firstinspires.ftc.teamcode.math;
+//UNITS: Inch, Gram, Second, Radian
+// sometimes degrees actually
+// new 3d projectile tradjectory solver
+// used RK4 and newton-rhapson methods
+public class ProjectileV2 {
+
+    private static final double G = 386.08858;
+    private static final double RHO = 2.00742e-5; //aor density
+    private static final double DT = 0.001;
+    private static final double MAX_FLIGHT_TIME = 10.0;
+
+    //ball measurements
+    private final double cd;
+    private final double mass;
+    private final double area;
+
+    //robot and target state
+    private Vector target; // relative to robot
+    private double targetAngle;
+    private Vector robotVel;        // current robot velocity
+
+    //soulution RELATIVE TO SHOOTER ON ROBOT
+    private Vector launchVel = new Vector(0, 0, 0);
+
+    public ProjectileV2(double cd, double mass, double area) {
+        this.cd   = cd;
+        this.mass = mass;
+        this.area = area;
+    }
+
+    public void setTarget(Vector targetPos, double targetAngleDeg, Vector robotVelocity) {
+        this.target      = targetPos;
+        this.targetAngle = Math.toRadians(targetAngleDeg);
+        this.robotVel    = robotVelocity;
+    }
+
+    public Vector getLaunchVel() {
+        return launchVel;
+    }
+
+
+    // RK4 SIMULATION
+    /* integrate (RK4) with intital velocity relative to the feild
+       (not the air, hopefully there isn't any wind lol)
+       when x = target.x() returns the residuals in Y, Z, and impact angle */
+    private SimulationResult simulate(Vector relativeMuzzle) {
+        // absolute initial state
+        Vector vel = relativeMuzzle.plus(robotVel);
+        Vector pos = new Vector(0, 0, 0);
+
+        Vector prevPos = pos;
+        Vector prevVel = vel;
+        double t = 0.0;
+
+        // intirgtae until we hit target x or timeout
+        while (pos.x() < target.x() && t < MAX_FLIGHT_TIME) {
+            prevPos = pos;
+            prevVel = vel;
+
+            //RK4 is a fascinating thing,
+            Vector a1 = getAcceleration(vel);
+            Vector k1Pos = vel;
+            Vector k1Vel = a1;
+
+            Vector vel2 = vel.plus(k1Vel.scale(0.5 * DT));
+            Vector a2   = getAcceleration(vel2);
+            Vector k2Pos = vel2;
+            Vector k2Vel = a2;
+
+            Vector vel3 = vel.plus(k2Vel.scale(0.5 * DT));
+            Vector a3   = getAcceleration(vel3);
+            Vector k3Pos = vel3;
+            Vector k3Vel = a3;
+
+            Vector vel4 = vel.plus(k3Vel.scale(DT));
+            Vector a4   = getAcceleration(vel4);
+            Vector k4Pos = vel4;
+            Vector k4Vel = a4;
+
+            //weighted average, i know notation is bad, sowwy  (pos += DT/6 * (k1 + 2k2 + 2k3 + k4))
+            pos = pos.plus(k1Pos.plus(k2Pos.scale(2)).plus(k3Pos.scale(2)).plus(k4Pos).scale(DT / 6.0));
+        //  pos += DT/6 * (k1 + 2*k2 + 2*k3 +k4)
+            vel = vel.plus(k1Vel.plus(k2Vel.scale(2)).plus(k3Vel.scale(2)).plus(k4Vel).scale(DT / 6.0));
+        //  vel += DT/6 * (k1Vel + 2*k2Vel + 2*k3Vel +k4Vel)
+            t += DT;
+        }
+
+        // Did we ever reach the target plane?
+        if (pos.x() < target.x() || pos.x() <= prevPos.x() + 1e-12) {
+            return SimulationResult.REJECTED;
+        }
+
+        // Linear intoerpolation to finish RK4 and get final system state
+        double fraction = (target.x() - prevPos.x()) / (pos.x() - prevPos.x());
+        fraction = Math.max(0.0, Math.min(1.0, fraction));
+        Vector finalPos = prevPos.plus(pos.minus(prevPos).scale(fraction));
+        Vector finalVel = prevVel.plus(vel.minus(prevVel).scale(fraction));
+        double finalAngle = finalVel.pitch();
+
+        //and now, error in system states
+        return new SimulationResult(finalPos.y() - target.y(), finalPos.z() - target.z(), finalAngle - targetAngle);
+    }
+
+    //acceleration due to gravity and drag. you could add magnus stuff here if you wanted.
+    private Vector getAcceleration(Vector vel) {
+        double v = vel.abs();
+        if (v < 1e-8) {
+            return new Vector(0, 0, -G);
+        }
+        double dragAcc = 0.5 * RHO * v * v * cd * area / mass;
+        Vector drag = vel.scale(-dragAcc / v);
+        return new Vector(drag.x(), drag.y(), drag.z() - G);
+    }
+
+    //Newton rhapson time
+    public void calculateLaunch() {
+        if (target.x() <= 0.0) {
+            launchVel = new Vector(0, 0, 0);
+            return;
+        }
+
+        // we should replace this with a better inital guess later
+        Vector vel = new Vector(50, 50, 50);
+
+        final double eps = 1e-5;
+        final double tol = 1e-4;
+        final int maxIter = 80;
+        final double damp = 0.7;
+
+        for (int iter = 0; iter < maxIter; iter++) {
+            //get errprs
+            SimulationResult r = simulate(vel);
+            double eY = r.yError;
+            double eZ = r.zError;
+            double eA = r.angleError;
+
+            if (Math.abs(eY) < tol && Math.abs(eZ) < tol && Math.abs(eA) < tol) {
+                break;   // errors within tolerance
+            }
+
+            // Oh my fuckkkking god matricies are hell on earth
+            // this makes a jacobian matrix, so we get the derivitive of our error function
+            // should i make a matrix class? i feel like i should make a matrix class
+            SimulationResult rx = simulate(vel.plus(new Vector(eps, 0, 0)));
+            SimulationResult ry = simulate(vel.plus(new Vector(0, eps, 0)));
+            SimulationResult rz = simulate(vel.plus(new Vector(0, 0, eps)));
+
+            double j11 = (rx.yError - eY) / eps;
+            double j12 = (ry.yError - eY) / eps;
+            double j13 = (rz.yError - eY) / eps;
+
+            double j21 = (rx.zError - eZ) / eps;
+            double j22 = (ry.zError - eZ) / eps;
+            double j23 = (rz.zError - eZ) / eps;
+
+            double j31 = (rx.angleError - eA) / eps;
+            double j32 = (ry.angleError - eA) / eps;
+            double j33 = (rz.angleError - eA) / eps;
+
+            // use cramers rule to solve the system of linear eqyations that the jacabian gave us
+            double det = j11 * (j22 * j33 - j23 * j32) - j12 * (j21 * j33 - j23 * j31) + j13 * (j21 * j32 - j22 * j31);
+
+            if (Math.abs(det) < 1e-12) {
+                break; // L singular matrox
+            }
+            double invDet = 1.0 / det;
+            double dx = invDet * (-eY * (j22 * j33 - j23 * j32) +  eZ * (j12 * j33 - j13 * j32) -  eA * (j12 * j23 - j13 * j22));
+            double dy = invDet * (eY * (j21 * j33 - j23 * j31) -  eZ * (j11 * j33 - j13 * j31) +  eA * (j11 * j23 - j13 * j21));
+            double dz = invDet * (-eY * (j21 * j32 - j22 * j31) +  eZ * (j11 * j32 - j12 * j31) -  eA * (j11 * j22 - j12 * j21));
+
+            // damped to avoid overcorrection if gradient is steep
+            vel = vel.plus(new Vector(dx, dy, dz).scale(damp));
+        }
+        this.launchVel = vel;
+    }
+    //result holder thingy
+    private static class SimulationResult {
+        static final SimulationResult REJECTED = new SimulationResult(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
+        final double yError;
+        final double zError;
+        final double angleError;
+        SimulationResult(double yError, double zError, double angleError) {
+            this.yError     = yError;
+            this.zError     = zError;
+            this.angleError = angleError;
+        }
+    }
+}

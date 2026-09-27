@@ -32,6 +32,7 @@ public class Turret {
         turretMotor = hwMap.get(DcMotorEx.class, "turretMotor");
 
         turretMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        turretMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         turretMotor.setPower(0);
 
         turretController = new PidfController(TurretParams.KP, TurretParams.KI, TurretParams.KD, TurretParams.KF, TurretParams.I_ZONE);

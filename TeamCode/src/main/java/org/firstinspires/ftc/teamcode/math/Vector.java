@@ -38,8 +38,12 @@ public class Vector {
                 this.z() * that.x() - this.x() * that.z(),
                 this.x() * that.y() - this.y() * that.x());
     }
-    public double dot(Vector that){
-        return this.x()*that.x() + this.y()*that.y() + this.z()*that.z();
+    public Vector normal(){
+        Vector vector = new Vector (this.x, this.y, this.z);
+        return vector.scale(1/vector.abs());
+    }
+    public boolean isFinite() {
+        return Double.isFinite(this.x) && Double.isFinite(this.y) && Double.isFinite(this.z);
     }
 
     //RPY calculations
@@ -58,6 +62,7 @@ public class Vector {
     public double yaw() {
         return Math.atan2(this.y, this.x);
     }
+
 
     // getters
     public double x() {

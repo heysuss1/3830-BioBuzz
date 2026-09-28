@@ -58,7 +58,7 @@ public class Hood {
         this.pitchServo.setPosition(pose);
     }
 
-    public void goToTargetPose() {
+    public void update() {
         if (pitchTarget != null)
             this.pitchServo.setPosition(pitchTarget);
     }

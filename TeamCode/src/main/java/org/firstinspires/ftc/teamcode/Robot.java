@@ -21,13 +21,11 @@ public class Robot {
     Flywheel flywheel;
     Turret turret;
     Transfer transfer;
-
     Follower follower;
 
     public static Pose teleOpStartPose;
 
     public Robot(HardwareMap hwMap, Telemetry telemetry){
-    public Robot(HardwareMap hwMap){
         follower = Constants.create(hwMap);
         driveTrain = new Drive(hwMap);
         hood = new Hood(hwMap, telemetry);
@@ -52,5 +50,12 @@ public class Robot {
         );
         follower.manual(powers);
 
+    }
+    public void update(){
+        follower.update();
+        turret.update();
+        flywheel.updateFly();
+        transfer.transferUpdate();
+        hood.update();
     }
 }

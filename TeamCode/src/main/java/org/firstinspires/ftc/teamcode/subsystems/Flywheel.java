@@ -17,6 +17,7 @@ public class Flywheel {
         this.flyMotor = hwMap.get(DcMotorEx.class, "flywheel");
         this.flyMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         this.flyMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+
         this.timer = new ElapsedTime();
         this.timer.reset();
         this.lastTime = this.timer.seconds();

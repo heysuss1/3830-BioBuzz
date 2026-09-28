@@ -23,7 +23,7 @@ public class Transfer {
     private double rampLeftDownPosition;
     private double rampRightDownPosition;
     // intake, uptake speed constants
-    TransferStates transferState;
+    TransferStates transferState = TransferStates.HOLD;
     final double INTAKE_SPEED = 0.8;
     final double UPTAKE_BLOCK_SPEED = -0.3;
 
@@ -31,10 +31,9 @@ public class Transfer {
         intake = hwMap.get(DcMotor.class, "intake");
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //stop and reset encoders?
         intake.setPower(0);
 
-        transfer = hwMap.get(DcMotor.class, "intake");
+        transfer = hwMap.get(DcMotor.class, "transfer");
         transfer.setDirection(DcMotorSimple.Direction.FORWARD);
         transfer.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         transfer.setPower(0);
@@ -56,13 +55,13 @@ public class Transfer {
     public void setTransferState(TransferStates transferState){
         this.transferState = transferState;
     }
-    public void raiseIntake(){
+    public void raiseIntake(){ //sets the ramp down, intake up
         raiseIntakeL.setPosition(intakeLeftUpPosition);
         raiseIntakeR.setPosition(intakeRightUpPosition);
         rampLeft.setPosition(rampLeftDownPosition);
         rampRight.setPosition(rampRightDownPosition);
     }
-    public void lowerIntake(){
+    public void lowerIntake(){ //sets the intake down, sets the ramp up
         raiseIntakeL.setPosition(intakeLeftDownPosition);
         raiseIntakeR.setPosition(intakeRightDownPosition);
         rampLeft.setPosition(rampLeftUpPosition);

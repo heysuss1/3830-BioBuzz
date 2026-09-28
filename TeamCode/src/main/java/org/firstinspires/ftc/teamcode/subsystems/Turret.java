@@ -58,7 +58,7 @@ public class Turret {
         return turretTargetTransformed;
     }
 
-    public void goToTurretTarget() {
+    public void update() {
         turretMotor.setPower(turretController.calculate(turretTarget, getTurretRadians()));
     }
 

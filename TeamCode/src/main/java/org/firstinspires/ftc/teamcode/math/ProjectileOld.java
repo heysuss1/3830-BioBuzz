@@ -1,16 +1,18 @@
 package org.firstinspires.ftc.teamcode.math;
-    //Okay so i just realised i forgot to account for robot movement :(
-    //I'll keep this as it is, and make another in 3 dimentions
-    //Kinda pmo... but thats just how this stuff works
-public class ProjectileV1 {
+//Okay so i just realised i forgot to account for robot movement :(
+//I'll keep this as it is, and make another in 3 dimentions
+//Kinda pmo... but thats just how this stuff works
+public class ProjectileOld {
     // UNITS: Inch, gram, second, radian (ISGR)
     // unless it's in degrees, in which case it will have "Deg" in the name
+
 
     // constants
     private static final double G = 386.08858;
     private static final double RHO = 2.00742e-5;
     private static final double DT = 0.001;
     private static final double MAX_FLIGHT_TIME = 10.0;  //could extend if needed
+
 
     // inputs
     private final double cd;
@@ -20,16 +22,19 @@ public class ProjectileV1 {
     private double targetY;
     private double targetImpact;
 
+
     // outputs
     private double launchVelocity;
     private double launchAngle;
 
+
     //Projectile physical qualitys
-    public ProjectileV1(double cd, double mass, double area) {
+    public ProjectileOld(double cd, double mass, double area) {
         this.cd = cd;
         this.mass = mass;
         this.area = area;
     }
+
 
     //Target location and ideal impact angle
     public void setTarget(double targetX, double targetY, double angleDegrees) {
@@ -43,6 +48,7 @@ public class ProjectileV1 {
         this.targetImpact = Math.toRadians(angleDegrees);
     }
 
+
     //getters
     public double getLaunchVelocityInchesPerSec() {
         return launchVelocity;
@@ -50,6 +56,7 @@ public class ProjectileV1 {
     public double getLaunchAngleDegrees() {
         return Math.toDegrees(launchAngle);
     }
+
 
     /* Runge-Kutta Fourth Degree (RK4) simulation of the ball
            Takes in initial velocity and angle of ball, simulates until ball reaches targetX
@@ -66,12 +73,14 @@ public class ProjectileV1 {
         double prevX = 0.0, prevY = 0.0;
         double prevVx = vx, prevVy = vy;
 
+
         //Simulation loop, 1 loop = 1 timestep
         while (x < targetX && t < MAX_FLIGHT_TIME) {
             prevX = x;
             prevY = y;
             prevVx = vx;
             prevVy = vy;
+
 
             // RK4 simulation on system state = (x, y, vx, vy)
             // RK4 is actually really cool, you should look into it
@@ -108,14 +117,17 @@ public class ProjectileV1 {
             double k4vx = a4[0];
             double k4vy = a4[1];
 
+
             //weighted sum
             x  += (DT / 6.0) * (k1x  + 2.0 * k2x  + 2.0 * k3x  + k4x);
             y  += (DT / 6.0) * (k1y  + 2.0 * k2y  + 2.0 * k3y  + k4y);
             vx += (DT / 6.0) * (k1vx + 2.0 * k2vx + 2.0 * k3vx + k4vx);
             vy += (DT / 6.0) * (k1vy + 2.0 * k2vy + 2.0 * k3vy + k4vy);
 
+
             t += DT;
         }
+
 
         // Reject runs that never reach targetX
         if (x < targetX || x <= prevX + 1e-12) {
@@ -123,29 +135,37 @@ public class ProjectileV1 {
             return new SimulationResult(Double.MAX_VALUE, Double.MAX_VALUE);
         }
 
+
         double fraction = (targetX - prevX) / (x - prevX);
         fraction = Math.max(0.0, Math.min(1.0, fraction));   // safety clamp
+
 
         double finalY  = prevY  + fraction * (y  - prevY);
         double finalVx = prevVx + fraction * (vx - prevVx);
         double finalVy = prevVy + fraction * (vy - prevVy);
         double finalImpactAngle = Math.atan2(finalVy, finalVx);
 
+
         return new SimulationResult(finalY - targetY, finalImpactAngle - targetImpact);
     }
+
 
     //does derivitives for the RK4 in simulate method, also applies drag
     private double[] getAccelerations(double vx, double vy) {
         double v = Math.sqrt(vx * vx + vy * vy);
 
+
         if (v < 1e-8) {
             return new double[]{0.0, -G};
         }
 
+
         double dragAcc = 0.5 * RHO * v * v * cd * area / mass;
+
 
         double ax = -(dragAcc * (vx / v));
         double ay = -G - (dragAcc * (vy / v));
+
 
         return new double[]{ax, ay};
     }
@@ -153,6 +173,7 @@ public class ProjectileV1 {
     private static class SimulationResult {
         final double yError;
         final double angleError;
+
 
         SimulationResult(double yError, double angleError) {
             this.yError = yError;
@@ -167,21 +188,26 @@ public class ProjectileV1 {
             return;
         }
 
+
         //initial guess
         double v0 = 250;
         double theta0 = 45;
 
+
         final double epsilon = 1e-6;
         final int maxIterations = 80;
+
 
         // assumes vector-valued function f(<v0, theta0>) = <errorY, errorAngle>
         // then uses newton-rhapson to find the zeros of that function
         for (int i = 0; i < maxIterations; i++) {
             SimulationResult res = simulate(v0, theta0);
 
+
             if (Math.abs(res.yError) < epsilon && Math.abs(res.angleError) < epsilon) {
                 break;
             }
+
 
             // Jacobian matrix approximation
             double deltaV = Math.max(0.05, v0 * 1e-5);
@@ -201,23 +227,28 @@ public class ProjectileV1 {
             double correctionV     = (-dA_dTheta * res.yError + dY_dTheta * res.angleError) / det;
             double correctionTheta = ( dA_dV     * res.yError - dY_dV     * res.angleError) / det;
 
+
             //I had to put a lot of limits and stuff here to avoid it shitting itself
             // Limit step size
             correctionV     = Math.max(-40.0, Math.min(40.0, correctionV));
             correctionTheta = Math.max(-Math.toRadians(4.0), Math.min(Math.toRadians(4.0), correctionTheta));
 
+
             final double alpha = 0.6;   // mild damping
             v0     += alpha * correctionV;
             theta0 += alpha * correctionTheta;
+
 
             // Hard physical bounds
             v0     = Math.max(1.0, Math.min(v0, 4000.0));
             theta0 = Math.max(-Math.PI / 2.0 + 0.01, Math.min(theta0, Math.PI / 2.0 - 0.01));
         }
 
+
         this.launchVelocity = v0;
         this.launchAngle = theta0;
     }
+
 
     public void printBallData() {
         System.out.println("==================================================");
@@ -229,8 +260,10 @@ public class ProjectileV1 {
         System.out.println("==================================================");
     }
 
+
     public void printResults() {
         calculateLaunch();
+
 
         System.out.println("==================================================");
         System.out.println("TRAJECTORY CALCULATION SYSTEM RESULTS");
@@ -244,10 +277,14 @@ public class ProjectileV1 {
         System.out.println("==================================================\n\n");
     }
 
+
     public static void main(String[] args) {
-        ProjectileV1 pollen = new ProjectileV1(0.55, 24.95, 1.0);
+        ProjectileOld pollen = new ProjectileOld(0.55, 24.95, 1.0);
         pollen.setTarget(72, 55, -10);
         pollen.printBallData();
         pollen.printResults();
     }
 }
+
+
+

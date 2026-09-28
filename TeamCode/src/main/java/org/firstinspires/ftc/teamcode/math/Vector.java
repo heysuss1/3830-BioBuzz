@@ -20,28 +20,32 @@ public class Vector {
     public Vector plus(Vector that) {
         return new Vector(this.x + that.x, this.y + that.y, this.z + that.z);
     }
-
     public Vector minus(Vector that) {
         return new Vector(this.x - that.x, this.y - that.y, this.z - that.z);
     }
-
     public Vector scale(double k) {
         return new Vector(k * this.x, k * this.y, k * this.z);
     }
-
     public double abs() {
         return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
     }
-
     public double absXY() {
         return Math.sqrt(this.x * this.x + this.y * this.y);
+    }
+    public Vector cross(Vector that) {
+        return new Vector(
+                this.y() * that.z() - this.z() * that.y(),
+                this.z() * that.x() - this.x() * that.z(),
+                this.x() * that.y() - this.y() * that.x());
+    }
+    public double dot(Vector that){
+        return this.x()*that.x() + this.y()*that.y() + this.z()*that.z();
     }
 
     //RPY calculations
     public double radius() {
         return this.abs();
     }
-
     public double pitch() {
         double absolute = this.abs();
 
@@ -51,7 +55,6 @@ public class Vector {
 
         return Math.asin(this.z / absolute);
     }
-
     public double yaw() {
         return Math.atan2(this.y, this.x);
     }
@@ -60,11 +63,9 @@ public class Vector {
     public double x() {
         return this.x;
     }
-
     public double y() {
         return this.y;
     }
-
     public double z() {
         return this.z;
     }

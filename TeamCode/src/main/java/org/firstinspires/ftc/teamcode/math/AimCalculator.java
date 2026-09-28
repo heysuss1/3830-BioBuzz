@@ -5,11 +5,10 @@
 package org.firstinspires.ftc.teamcode.math;
 
 import com.pedropathing.follower.Follower;
+import com.pedropathing.math.Pose;
 
 //For turret
 public class AimCalculator {
-    private Follower follower;
-
     private static final double FIELD_LENGTH = 141.5;
     private static final double HIVE_LEG_X = 47.2;
     private static final double TARGET_X = 57.7;
@@ -26,23 +25,17 @@ public class AimCalculator {
         return Math.tan(MAX_SHOOTING_ANGLE) * Math.abs(x-TARGET_X) + LEFT_TARGET_Y;
     }
 
-    public AimCalculator(Follower follower) {
-        this.follower = follower;
-    }
 
-    public double getYaw() {
-        return follower.pose().heading();
-    }
-
+    //I deleted get yaw, idt this is necessary
     /**
     From the driver's POV, the angle that the turret should be pointing at. Not subtracted from
     the heading of the robot yet. The set values are meant to predict roughly where it needs to
     point without wasting computing power pointing at the goal when we can't shoot there.
-     Reference here: https://www.desmos.com/calculator/zimodtjzrh
+     Reference here: ≈≈
      **/
-    public Double calcRawTargetYaw() {
-        double x = follower.pose().x();
-        double y = follower.pose().y();
+    public Double calcRawTargetYaw(Pose pose) {
+        double x = pose.x();
+        double y = pose.y();
 
         if (y < RIGHT_HIVE_AIM_BOUNDARY(x)) { //in the aim @ right hive zone
             //aim towards right hive target

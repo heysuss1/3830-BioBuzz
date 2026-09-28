@@ -16,12 +16,12 @@ import org.firstinspires.ftc.teamcode.subsystems.Transfer;
 import org.firstinspires.ftc.teamcode.subsystems.Turret;
 
 public class Robot {
-    Drive driveTrain;
-    Hood hood;
-    Flywheel flywheel;
-    Turret turret;
-    Transfer transfer;
-    Follower follower;
+    public final Drive driveTrain;
+    public final Hood hood;
+    public final Flywheel flywheel;
+    public final Turret turret;
+    public final Transfer transfer;
+    public final Follower follower;
 
     public static Pose teleOpStartPose;
 

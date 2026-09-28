@@ -59,7 +59,9 @@ public class Turret {
     }
 
     public void update() {
-        turretMotor.setPower(turretController.calculate(turretTarget, getTurretRadians()));
+        if (turretTarget != null) {
+            turretMotor.setPower(turretController.calculate(turretTarget, getTurretRadians()));
+        }
     }
 
     public double getTurretRadians() {

@@ -12,11 +12,11 @@ public class Projectile {
     private static final double MAX_FLIGHT_TIME = 10.0;
 
     // Numerical solver settings
-    private static final double DERIVATIVE_EPS = 0.01;
+    private static final double DERIVATIVE_EPS = 0.005;
     private static final double ERROR_TOLERANCE = 1e-4;
     private static final double ANGLE_TOLERANCE = 1e-5;
-    private static final int MAX_ITERATIONS = 80;
-    private static final double DAMPING = 0.7;
+    private static final int MAX_ITERATIONS = 100;
+    private static final double DAMPING = 0.8;
 
     // Ball measurements
     private final double cd; // drag coefficent
@@ -121,6 +121,23 @@ public class Projectile {
         return new Vector(drag.x() + magnus.x(), drag.y() + magnus.y(), drag.z() + magnus.z() - G);
     }
 
+    //solver with only gravity
+    public Vector calcLaunchGravOnly(Vector target, double theta) {
+        double x = target.x();
+        double y = target.y();
+        double z = target.z();
+
+        double R = Math.sqrt(x * x + y * y);
+        double vh = R * Math.sqrt(G / (2 * (z - R * Math.tan(theta))));
+
+        double vx = x * vh / R;
+        double vy = y * vh / R;
+        double vz = vh * (Math.tan(theta) + (G * R) / (vh * vh));
+        return new Vector(vx, vy, vz);
+    }
+
+
+
     // Newton-Raphson solver
     public void calculateLaunch() {
         //check if we messed up somewhere, abort if so
@@ -134,7 +151,7 @@ public class Projectile {
         }
 
         // Initial guess
-        Vector vel = new Vector(50, 50, 50);
+        Vector vel = calcLaunchGravOnly(target, targetAngle);
         boolean converged = false;
 
         // new-ton-rap-son loop
@@ -152,7 +169,7 @@ public class Projectile {
                 break;
             }
 
-            //Jacobian, except I'm using midpoints niow because I'm just so cool
+            //Jacobian, except I'm using midpoints now because I'm just so cool
             Vector xPlus = vel.plus(new Vector(DERIVATIVE_EPS, 0, 0));
             Vector xMinus = vel.plus(new Vector(-DERIVATIVE_EPS, 0, 0));
             Vector yPlus = vel.plus(new Vector(0, DERIVATIVE_EPS, 0));
@@ -219,7 +236,6 @@ public class Projectile {
             this.angleError = angleError;
             this.valid = valid;
         }
-
         static SimulationResult rejected() {
             return new SimulationResult(0.0, 0.0, 0.0, false);
         }

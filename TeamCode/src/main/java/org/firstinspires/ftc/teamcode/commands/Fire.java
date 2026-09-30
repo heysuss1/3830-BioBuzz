@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.commands;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.math.AimCalculator;
 
 public class Fire {
     private Robot robot;
@@ -37,6 +38,10 @@ public class Fire {
                 break;
             case FIRE:
                 robot.transfer.setUptakeMode();
+                robot.turret.calcTurretTarget( //hypothetically this works
+                        AimCalculator.calcRawTargetYaw(robot.follower.pose()),
+                        robot.follower.pose().heading()
+                );
                 if (timer.seconds() > 2) {
                     setFireState(FireStates.DONE);
                 }

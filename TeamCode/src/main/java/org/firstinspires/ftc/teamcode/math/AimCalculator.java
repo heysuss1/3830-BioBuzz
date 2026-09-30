@@ -33,7 +33,7 @@ public class AimCalculator {
     point without wasting computing power pointing at the goal when we can't shoot there.
      Reference here: ≈≈
      **/
-    public Double calcRawTargetYaw(Pose pose) {
+    public static Double calcRawTargetYaw(Pose pose) {
         double x = pose.x();
         double y = pose.y();
 

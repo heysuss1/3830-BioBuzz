@@ -51,6 +51,9 @@ public class Robot {
         follower.manual(powers);
 
     }
+    public boolean allSystemsReady(){
+        return (flywheel.isAtTarget() && hood.isAtTarget() && turret.isAtTarget());
+    }
     public void update(){
         follower.update();
         turret.update();

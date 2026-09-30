@@ -11,6 +11,7 @@ public class Flywheel {
     private final PIDFF pidff = new PIDFF(0,0,0,0,0,0,0);
     private double targetRPM = 0.0;
     private double lastTime;
+    private static final double TOLERANCE = 50;
     private static final double TICKS_PER_REV = 28.0;
 
     public Flywheel(HardwareMap hwMap){
@@ -30,6 +31,9 @@ public class Flywheel {
     public double getRPM() {
         double ticksPerSecond = flyMotor.getVelocity();
         return ticksPerSecond*60.0/TICKS_PER_REV;
+    }
+    public boolean isAtTarget(){
+        return Math.abs(getRPM() - targetRPM) < TOLERANCE;
     }
 
     public void updateFly(){

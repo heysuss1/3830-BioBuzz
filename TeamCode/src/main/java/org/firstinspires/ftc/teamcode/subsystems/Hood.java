@@ -22,6 +22,7 @@ public class Hood {
     private Follower follower;
     private Telemetry telemetry;
     private final Servo pitchServo;
+    private static final double TOLERANCE = 0.1;
     private final AnalogInput pitchEncoder;
 
     public Double pitchTarget = null;
@@ -53,7 +54,13 @@ public class Hood {
     public void setPitchTarget(double target) {
         this.pitchTarget = target;
     }
+    public double getPitchTarget(){
+        return pitchTarget;
+    }
 
+    public boolean isAtTarget(){
+        return Math.abs(getPitchTarget()-getPitchPose()) < TOLERANCE;
+    }
     public void setPose(double pose) {
         this.pitchServo.setPosition(pose);
     }

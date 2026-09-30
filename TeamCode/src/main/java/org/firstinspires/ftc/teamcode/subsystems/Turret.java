@@ -20,6 +20,7 @@ public class Turret {
     private static final class TurretParams {
         private static final double KP = 0.0, KI = 0.0, KD = 0.0, KF = 0.0, I_ZONE = 0.0;
         private static final double GEAR_RATIO = 32.0/120.0, TICKS_PER_REVOLUTION = 28;
+        private static final double TOLERANCE = 1.5;
         //private static final double
         private static final double MAX_TURRET_ROTATION = 10.0 * Math.PI / 9.0; //in each direction, in radians
 
@@ -39,6 +40,8 @@ public class Turret {
         turretLayer = 0;
     }
 
+
+    //has to be in radians
     public void setTurretTarget(Double turretTarget) {
             this.turretTarget = turretTarget;
     }
@@ -62,6 +65,10 @@ public class Turret {
         if (turretTarget != null) {
             turretMotor.setPower(turretController.calculate(turretTarget, getTurretRadians()));
         }
+    }
+
+    public boolean isAtTarget(){
+        return Math.abs(getTurretTarget()-getTurretRadians()) < TurretParams.TOLERANCE;
     }
 
     public double getTurretRadians() {

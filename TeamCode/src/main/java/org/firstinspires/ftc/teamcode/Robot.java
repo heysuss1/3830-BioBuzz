@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.pedro.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
 import org.firstinspires.ftc.teamcode.subsystems.Flywheel;
 import org.firstinspires.ftc.teamcode.subsystems.Hood;
@@ -15,17 +16,17 @@ import org.firstinspires.ftc.teamcode.subsystems.Transfer;
 import org.firstinspires.ftc.teamcode.subsystems.Turret;
 
 public class Robot {
-    Drive driveTrain;
-    Hood hood;
-    Flywheel flywheel;
-    Turret turret;
-    Transfer transfer;
-
-    Follower follower;
+    public final Drive driveTrain;
+    public final Hood hood;
+    public final Flywheel flywheel;
+    public final Turret turret;
+    public final Transfer transfer;
+    public final Follower follower;
 
     public static Pose teleOpStartPose;
 
     public Robot(HardwareMap hwMap, Telemetry telemetry){
+        follower = Constants.create(hwMap);
         driveTrain = new Drive(hwMap);
         hood = new Hood(hwMap, telemetry);
         flywheel = new Flywheel(hwMap);
@@ -49,5 +50,15 @@ public class Robot {
         );
         follower.manual(powers);
 
+    }
+    public boolean allSystemsReady(){
+        return (flywheel.isAtTarget() && hood.isAtTarget() && turret.isAtTarget());
+    }
+    public void update(){
+        follower.update();
+        turret.update();
+        flywheel.updateFly();
+        transfer.transferUpdate();
+        hood.update();
     }
 }

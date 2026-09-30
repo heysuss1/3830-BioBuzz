@@ -11,12 +11,14 @@ public class Flywheel {
     private final PIDFF pidff = new PIDFF(0,0,0,0,0,0,0);
     private double targetRPM = 0.0;
     private double lastTime;
+    private static final double TOLERANCE = 50;
     private static final double TICKS_PER_REV = 28.0;
 
     public Flywheel(HardwareMap hwMap){
         this.flyMotor = hwMap.get(DcMotorEx.class, "flywheel");
         this.flyMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         this.flyMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+
         this.timer = new ElapsedTime();
         this.timer.reset();
         this.lastTime = this.timer.seconds();
@@ -29,6 +31,9 @@ public class Flywheel {
     public double getRPM() {
         double ticksPerSecond = flyMotor.getVelocity();
         return ticksPerSecond*60.0/TICKS_PER_REV;
+    }
+    public boolean isAtTarget(){
+        return Math.abs(getRPM() - targetRPM) < TOLERANCE;
     }
 
     public void updateFly(){

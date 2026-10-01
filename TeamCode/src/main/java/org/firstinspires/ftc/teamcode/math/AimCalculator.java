@@ -25,8 +25,6 @@ public class AimCalculator {
         return Math.tan(MAX_SHOOTING_ANGLE) * Math.abs(x-TARGET_X) + LEFT_TARGET_Y;
     }
 
-
-    //I deleted get yaw, idt this is necessary
     /**
     From the driver's POV, the angle that the turret should be pointing at. Not subtracted from
     the heading of the robot yet. The set values are meant to predict roughly where it needs to

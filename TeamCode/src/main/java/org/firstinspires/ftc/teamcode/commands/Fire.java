@@ -6,8 +6,9 @@ import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.math.AimCalculator;
 
 public class Fire {
-    private Robot robot;
-    private ElapsedTime timer = new ElapsedTime();
+    private final Robot robot;
+    private final ElapsedTime timer = new ElapsedTime();
+    private final double SHOT_TIME = 1.5;
     enum FireStates{START, FIRE, DONE}
     FireStates fireState = FireStates.START;
     public FireStates getFireState(){
@@ -38,11 +39,7 @@ public class Fire {
                 break;
             case FIRE:
                 robot.transfer.setUptakeMode();
-                robot.turret.calcTurretTarget( //hypothetically this works
-                        AimCalculator.calcRawTargetYaw(robot.follower.pose()),
-                        robot.follower.pose().heading()
-                );
-                if (timer.seconds() > 2) {
+                if (timer.seconds() > SHOT_TIME) {
                     setFireState(FireStates.DONE);
                 }
                 break;

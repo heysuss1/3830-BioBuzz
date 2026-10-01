@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.math.ShotCalculator;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
 import org.firstinspires.ftc.teamcode.subsystems.Flywheel;
@@ -22,6 +23,7 @@ public class Robot {
     public final Turret turret;
     public final Transfer transfer;
     public final Follower follower;
+    public ShotCalculator shotCalc; //will be made final once cade shenanigans are figured and sorted out
 
     public static Pose teleOpStartPose;
 
@@ -32,6 +34,7 @@ public class Robot {
         flywheel = new Flywheel(hwMap);
         turret = new Turret(hwMap, telemetry);
         transfer = new Transfer(hwMap);
+//        shotCalc = new ShotCalculator();
     }
     public void setRobotCentricDriving(Gamepad  gamepad1){
         follower.manual(
@@ -54,11 +57,20 @@ public class Robot {
     public boolean allSystemsReady(){
         return (flywheel.isAtTarget() && hood.isAtTarget() && turret.isAtTarget());
     }
+    public void setTeleOpStartPose(Pose pose){
+        teleOpStartPose = pose;
+    }
+
+    public void startFromTeleop(){
+        follower.setPose(teleOpStartPose);
+    }
+
     public void update(){
         follower.update();
         turret.update();
         flywheel.updateFly();
         transfer.transferUpdate();
+        shotCalc.update();
         hood.update();
     }
 }

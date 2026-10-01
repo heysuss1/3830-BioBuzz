@@ -42,17 +42,12 @@ public class Turret {
     }
 
 
-    //has to be in radians
-    public void setTurretTarget(Double turretTarget) {
-            this.turretTarget = turretTarget;
-    }
-
     public Double getTurretTarget() {
         return this.turretTarget;
     }
 
 
-    public double calcTurretTarget(Double targetYaw, double currentYaw) {
+    public double calcTurretTarget(Double targetYaw, double currentYaw) { //the *setter* method for the turret
         double turretTargetRaw = targetYaw - currentYaw;
         double turretTargetTransformed = layeredTurretTransform(turretTargetRaw, turretLayer);
 

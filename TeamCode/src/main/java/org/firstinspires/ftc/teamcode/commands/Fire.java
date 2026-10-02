@@ -25,7 +25,7 @@ public class Fire {
         return fireState == FireStates.DONE;
     }
     public void start(){
-        setFireState(FireStates.FIRE);
+        setFireState(FireStates.START);
     }
 
 
@@ -40,6 +40,7 @@ public class Fire {
             case FIRE:
                 robot.transfer.setUptakeMode();
                 if (timer.seconds() > SHOT_TIME) {
+                    end(false);
                     setFireState(FireStates.DONE);
                 }
                 break;

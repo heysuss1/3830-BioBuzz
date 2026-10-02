@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.teleops;
 
 
+import com.pedropathing.math.Vector;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
@@ -54,6 +55,7 @@ public class TeleOp extends LinearOpMode {
 
 
             robot.update();
+            telemetry.update();
         }
     }
 }

@@ -23,6 +23,8 @@ public class Robot {
     public final Turret turret;
     public final Transfer transfer;
     public final Follower follower;
+    public enum Team {RED, BLUE}
+    Team team = Team.RED;
     public ShotCalculator shotCalc; //will be made final once cade shenanigans are figured and sorted out
 
     public static Pose teleOpStartPose;
@@ -35,6 +37,13 @@ public class Robot {
         turret = new Turret(hwMap, telemetry);
         transfer = new Transfer(hwMap);
 //        shotCalc = new ShotCalculator();
+    }
+
+    public Team getTeam(){
+        return team;
+    }
+    public void setTeam(Team team){
+        this.team = team;
     }
     public void setRobotCentricDriving(Gamepad  gamepad1){
         follower.manual(
@@ -70,7 +79,6 @@ public class Robot {
         turret.update();
         flywheel.updateFly();
         transfer.transferUpdate();
-        shotCalc.update();
         hood.update();
     }
 }

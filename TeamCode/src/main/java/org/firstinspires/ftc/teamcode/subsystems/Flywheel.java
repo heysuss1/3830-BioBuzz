@@ -9,8 +9,9 @@ public class Flywheel {
     private final DcMotorEx flyMotor;
     private final ElapsedTime timer;
     private final PIDFF pidff = new PIDFF(0,0,0,0,0,0,0);
-    private double targetRPM = 0.0;
+    private Double targetRPM = null;
     private double lastTime;
+    private boolean alwaysShoot = true;
     private static final double TOLERANCE = 50;
     private static final double TICKS_PER_REV = 28.0;
 
@@ -24,10 +25,16 @@ public class Flywheel {
         this.lastTime = this.timer.seconds();
     }
 
-    public void setTargetRPM(double targetRPM) {
+    public void setTargetRPM(Double targetRPM) {
         this.targetRPM = targetRPM;
     }
 
+    public boolean getAlwaysShoot() {
+        return alwaysShoot;
+    }
+    public void setAlwaysShoot(boolean alwaysShoot) {
+        this.alwaysShoot = alwaysShoot;
+    }
     public double getRPM() {
         double ticksPerSecond = flyMotor.getVelocity();
         return ticksPerSecond*60.0/TICKS_PER_REV;
@@ -43,6 +50,8 @@ public class Flywheel {
 
         double totalPower = pidff.calcPIDFF(getRPM(), targetRPM, dt, 0, 0);
         totalPower = Math.min(Math.max(totalPower, -1), 1);
-        flyMotor.setPower(totalPower);
+        if ((this.targetRPM != null) && alwaysShoot) {
+            flyMotor.setPower(totalPower);
+        }
     }
 }

@@ -5,6 +5,7 @@ import com.pedropathing.math.Vector;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.teamcode.FieldConstants;
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.Fire;
 import org.firstinspires.ftc.teamcode.math.AimCalculator;
@@ -17,13 +18,13 @@ import java.util.Timer; //idk if this is the right one
 public class TeleOp extends LinearOpMode {
     private Robot robot;
     Timer loopTimer;
-
     //Place holder before runner is created:
     Fire fire;
     public void runOpMode() {
         robot = new Robot(hardwareMap, telemetry);
         fire = new Fire(robot);
 
+        Robot.Team team = Robot.Team.RED;
         robot.startFromTeleop();
 
         waitForStart();
@@ -48,13 +49,23 @@ public class TeleOp extends LinearOpMode {
                 fire.start();
             }
 
+            //WHen back button is pressed, swap the team ur on
+            if (gamepad1.backWasPressed()){
+                team = (team == Robot.Team.BLUE) ? Robot.Team.RED : Robot.Team.BLUE;
+            }
+
+            //When dpad up is pressed, turns always have shooter on/off
+            if (gamepad1.dpadUpWasPressed()){
+                robot.flywheel.setAlwaysShoot(!robot.flywheel.getAlwaysShoot());
+            }
+
 
             //ShotCalc update adjusts the RPM necessary to get into the goal
-            robot.shotCalc.update();
+            robot.shotCalc.update(robot.follower.pose(), robot.getTeam(), robot.follower.velocity());
             robot.flywheel.setTargetRPM(robot.shotCalc.getRPM());
-
-
+            fire.update();
             robot.update();
+            robot.setTeam(team);
             telemetry.update();
         }
     }

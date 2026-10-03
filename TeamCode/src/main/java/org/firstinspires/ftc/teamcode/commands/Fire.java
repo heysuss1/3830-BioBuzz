@@ -33,7 +33,7 @@ public class Fire {
     public void update(){
         switch(fireState) {
             case START:
-                if (robot.allSystemsReady()) {
+                if (robot.allSystemsReady() || (timer.seconds() > 2)) {
                     setFireState(FireStates.FIRE);
                 }
                 break;

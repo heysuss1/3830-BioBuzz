@@ -66,7 +66,7 @@ public class Robot {
     public boolean allSystemsReady(){
         return (flywheel.isAtTarget() && hood.isAtTarget() && turret.isAtTarget());
     }
-    public void setTeleOpStartPose(Pose pose){
+    public static void setTeleOpStartPose(Pose pose){
         teleOpStartPose = pose;
     }
 

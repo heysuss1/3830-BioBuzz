@@ -5,6 +5,8 @@ VECTOR CLASS
  - never make a RPY vector
 */
 
+import com.pedropathing.math.Velocity;
+
 public class Vector {
     private final double x;
     private final double y;
@@ -81,5 +83,9 @@ public class Vector {
         double y = radius * Math.sin(yaw) * Math.cos(pitch);
         double z = radius * Math.sin(pitch);
         return new Vector(x, y, z);
+    }
+
+    public static Vector pedroVelocityToVector(Velocity pedroVelocity) {
+        return new Vector(pedroVelocity.vx, pedroVelocity.vy, 0.0);
     }
 }

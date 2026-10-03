@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes.teleops;
 
 
-import com.pedropathing.math.Vector;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
@@ -10,6 +9,7 @@ import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.Fire;
 import org.firstinspires.ftc.teamcode.math.AimCalculator;
 import org.firstinspires.ftc.teamcode.math.ShotCalculator;
+import org.firstinspires.ftc.teamcode.math.Vector;
 
 import java.util.Timer; //idk if this is the right one
 
@@ -61,7 +61,8 @@ public class TeleOp extends LinearOpMode {
 
 
             //ShotCalc update adjusts the RPM necessary to get into the goal
-            robot.shotCalc.update(robot.follower.pose(), robot.getTeam(), robot.follower.velocity());
+            robot.shotCalc.update(robot.follower.pose(), robot.getTeam(),
+                    Vector.pedroVelocityToVector(robot.follower.velocity()));
             robot.flywheel.setTargetRPM(robot.shotCalc.getRPM());
             fire.update();
             robot.update();

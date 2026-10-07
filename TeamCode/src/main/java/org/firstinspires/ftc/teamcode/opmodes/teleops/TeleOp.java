@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.teleops;
 
 
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -27,6 +28,7 @@ public class TeleOp extends LinearOpMode {
 
         Robot.Team team = Robot.Team.RED;
         robot.startFromTeleop();
+        robot.implementManualBulkReads();
 
         waitForStart();
         while (opModeIsActive()) {
@@ -71,6 +73,7 @@ public class TeleOp extends LinearOpMode {
             robot.setTeam(team);
             telemetry.addData("Time", "%.2f", loopMiliseconds);
             telemetry.update();
+            robot.clearCache();
         }
     }
 }

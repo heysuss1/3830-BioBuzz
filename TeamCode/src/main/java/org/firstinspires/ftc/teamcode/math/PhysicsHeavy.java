@@ -5,7 +5,7 @@ package org.firstinspires.ftc.teamcode.math;
 // Accounts for gravity, drag, and Magnus effect.
 // I swear to god if I have to edit this again i will go back in time to personally assinate Runge, Newton, Kutta, Raphson, and Magnus
 
-public class Projectile {
+public class PhysicsHeavy {
     //Physical constants
     private static final double G = 386.08858;
     private static final double RHO = 0.00118;
@@ -18,51 +18,51 @@ public class Projectile {
     private static final double ANGLE_TOLERANCE = 1e-5;
     private static final int MAX_ITERATIONS = 100;
     private static final double DAMPING = 0.8;
-    private final boolean[] included; //what calculations are included, {gravity, drag, magnus}
+    private static boolean[] included = {true, true, true}; //what calculations are included, {gravity, drag, magnus}
 
     // Ball measurements
-    private final double cd; // drag coefficent
-    private final double cl; // lift coefficent, this isn't actually a constant, but for our purposes it's okay
-    private final double mass;
-    private final double area;
+    private static double cd; // drag coefficent
+    private static double cl; // lift coefficent, this isn't actually a constant, but for our purposes it's okay
+    private static double mass;
+    private static double area;
 
     // Robot and target state
-    private Vector target;
-    private double targetAngle;
-    private Vector robotVel;
-    private Vector ballSpin;
+    private static Vector target;
+    private static double targetAngle;
+    private static Vector robotVel;
+    private static Vector ballSpin;
 
     // Solution relative to shooter on robot
-    private Vector launchVel = new Vector(0, 0, 0);
+    private static Vector launchVel = new Vector(0, 0, 0);
 
     //Things that should not change between shots
-    public Projectile(double cd, double cl, double mass, double area, boolean[] included) {
-        this.cd = cd;
-        this.cl = cl;
-        this.mass = mass;
-        this.area = area;
-        this.included = included;
+    public static void setBallCoefficients(double cd, double cl, double mass, double area, boolean[] included) {
+        PhysicsHeavy.cd = cd;
+        PhysicsHeavy.cl = cl;
+        PhysicsHeavy.mass = mass;
+        PhysicsHeavy.area = area;
+        PhysicsHeavy.included = included;
     }
 
     // Values that vary between shots
-    public void setTarget(Vector targetPos, double targetAngleDeg, Vector robotVelocity, Vector ballSpinRPM) {
-        this.target = targetPos;
-        this.targetAngle = Math.toRadians(targetAngleDeg);
-        this.robotVel = robotVelocity;
-        this.ballSpin = ballSpinRPM.scale(Math.PI / 30.0);
+    public static void setTarget(Vector targetPos, double targetAngleDeg, Vector robotVelocity, Vector ballSpinRPM) {
+        target = targetPos;
+        targetAngle = Math.toRadians(targetAngleDeg);
+        robotVel = robotVelocity;
+        ballSpin = ballSpinRPM.scale(Math.PI / 30.0);
         // note: ballSpin depends on how fast the ball is launched
         // which depeneds on the physics simulator
         // which depends on ball spin... so... whoops
-        // we can use calcLaunchGravOnly to approximate thi, hopefully
+        // we can use calcLaunchGravOnly to approximate this, hopefully
     }
 
-    public Vector getLaunchVel() {
+    public static Vector getLaunchVel() {
         calculateLaunch();
         return launchVel;
     }
 
     // RK4 simulation
-    private SimulationResult simulate(Vector relativeRobot, Vector spin) {
+    private static SimulationResult simulate(Vector relativeRobot, Vector spin) {
         Vector vel = relativeRobot.plus(robotVel);
         Vector pos = new Vector(0, 0, 0);
         Vector prevPos = pos;
@@ -111,7 +111,7 @@ public class Projectile {
     }
 
     // Acceleration due to gravity, aerodynamic drag, and the Magnus effect.
-    private Vector getAcceleration(Vector vel, Vector spin) {
+    private static Vector getAcceleration(Vector vel, Vector spin) {
         double v = vel.abs();
         Vector drag = new Vector(0, 0, 0);
         Vector magnus = new Vector(0, 0, 0);
@@ -141,7 +141,7 @@ public class Projectile {
 
 
     //solver with only gravity
-    public Vector calcLaunchGravOnly(Vector target, double theta) {
+    public static Vector calcLaunchGravOnly(Vector target, double theta) {
         double x = target.x();
         double y = target.y();
         double z = target.z();
@@ -156,7 +156,7 @@ public class Projectile {
     }
 
     // Newton-Raphson solver
-    public void calculateLaunch() {
+    public static void calculateLaunch() {
         //check if we messed up somewhere, abort if so
         if (target == null || robotVel == null || ballSpin == null) {
             launchVel = new Vector(0, 0, 0);

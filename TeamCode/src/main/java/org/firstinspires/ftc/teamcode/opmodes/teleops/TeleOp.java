@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.opmodes.teleops;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.FieldConstants;
 import org.firstinspires.ftc.teamcode.Robot;
@@ -17,7 +18,7 @@ import java.util.Timer; //idk if this is the right one
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Main Tele")
 public class TeleOp extends LinearOpMode {
     private Robot robot;
-    Timer loopTimer;
+    ElapsedTime loopTimer = new ElapsedTime();
     //Place holder before runner is created:
     Fire fire;
     public void runOpMode() {
@@ -29,7 +30,8 @@ public class TeleOp extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()) {
-
+            double loopMiliseconds = loopTimer.milliseconds();
+            loopTimer.reset();
             robot.turret.calcTurretTarget(
                     AimCalculator.calcRawTargetYaw(robot.follower.pose()),
                     robot.follower.pose().heading()
@@ -67,6 +69,7 @@ public class TeleOp extends LinearOpMode {
             fire.update();
             robot.update();
             robot.setTeam(team);
+            telemetry.addData("Time", "%.2f", loopMiliseconds);
             telemetry.update();
         }
     }

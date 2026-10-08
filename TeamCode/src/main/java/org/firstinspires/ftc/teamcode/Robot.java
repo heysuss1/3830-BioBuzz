@@ -4,6 +4,7 @@ import com.pedropathing.drivetrain.DrivePowers;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.ManualDrive;
 import com.pedropathing.math.Pose;
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -16,7 +17,10 @@ import org.firstinspires.ftc.teamcode.subsystems.Hood;
 import org.firstinspires.ftc.teamcode.subsystems.Transfer;
 import org.firstinspires.ftc.teamcode.subsystems.Turret;
 
+import java.util.List;
+
 public class Robot {
+    List<LynxModule> allHubs
     public final Drive driveTrain;
     public final Hood hood;
     public final Flywheel flywheel;
@@ -36,6 +40,7 @@ public class Robot {
         flywheel = new Flywheel(hwMap);
         turret = new Turret(hwMap, telemetry);
         transfer = new Transfer(hwMap);
+        allHubs = hwMap.getAll(LynxModule.class);
 //        shotCalc = new ShotCalculator();
     }
 
@@ -62,6 +67,16 @@ public class Robot {
         );
         follower.manual(powers);
 
+    }
+    public void implementManualBulkReads(){
+        for(LynxModule hub : allHubs){
+            hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
+        }
+    }
+    public void clearCache(){
+        for(LynxModule hub : allHubs){
+            hub.clearBulkCache();
+        }
     }
     public boolean allSystemsReady(){
         return (flywheel.isAtTarget() && hood.isAtTarget() && turret.isAtTarget());

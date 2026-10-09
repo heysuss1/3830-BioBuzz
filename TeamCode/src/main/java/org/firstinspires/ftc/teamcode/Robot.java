@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Turret;
 import java.util.List;
 
 public class Robot {
-    List<LynxModule> allHubs
+    List<LynxModule> allHubs;
     public final Drive driveTrain;
     public final Hood hood;
     public final Flywheel flywheel;

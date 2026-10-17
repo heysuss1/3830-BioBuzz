@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes.teleops;
 
 import com.pedropathing.drivetrain.Drivetrain;
+import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.opmodes.testers.TransferTest;
+import org.firstinspires.ftc.teamcode.pedro.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.Transfer;
 
 
@@ -15,33 +17,31 @@ import org.firstinspires.ftc.teamcode.subsystems.Transfer;
 public class ScrimBotTele extends LinearOpMode {
 
     public void runOpMode(){
-        DcMotor frontLeftMotor = hardwareMap.dcMotor.get("lf");
-        DcMotor backLeftMotor = hardwareMap.dcMotor.get("lb");
-        DcMotor frontRightMotor = hardwareMap.dcMotor.get("rf");
-        DcMotor backRightMotor = hardwareMap.dcMotor.get("rb");
-
-        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        Follower follower = Constants.create(hardwareMap);
+        Transfer transfer = new Transfer(hardwareMap);
 
         waitForStart();
         while (opModeIsActive()){
-            double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
-            double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
-            double rx = gamepad1.right_stick_x;
 
-            // Denominator is the largest motor power (absolute value) or 1
-            // This ensures all the powers maintain the same ratio,
-            // but only if at least one is out of the range [-1, 1]
-            double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-            double frontLeftPower = (y + x + rx) / denominator;
-            double backLeftPower = (y - x + rx) / denominator;
-            double frontRightPower = (y - x - rx) / denominator;
-            double backRightPower = (y + x - rx) / denominator;
+            follower.manual(
+                    -gamepad1.left_stick_y,
+                    gamepad1.left_stick_x,
+                    gamepad1.right_stick_x
+            );
 
-            frontLeftMotor.setPower(frontLeftPower);
-            backLeftMotor.setPower(backLeftPower);
-            frontRightMotor.setPower(frontRightPower);
-            backRightMotor.setPower(backRightPower);
+            if (gamepad1.rightBumperWasPressed()){
+                transfer.setIntakeMode();
+            } else if (gamepad1.circleWasPressed()){
+                transfer.setEmptyMode();
+            } else if (gamepad1.xWasPressed()){
+                transfer.setHoldMode();
+            }
+
+
+            follower.update();
+            telemetry.update();
+            transfer.transferUpdate();
+
         }
     }
 

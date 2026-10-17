@@ -7,6 +7,7 @@ import com.pedropathing.revhub.drivetrains.Mecanum;
 import com.pedropathing.revhub.drivetrains.MecanumConfig;
 import com.pedropathing.revhub.localizers.PinpointConfig;
 import com.pedropathing.revhub.localizers.PinpointLocalizer;
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Constants {
@@ -14,7 +15,7 @@ public class Constants {
          return new Follower(
                  new PinpointLocalizer(h, localizerConfig),
                  new Mecanum(h, driveConfig),
-                 new Foresight(foresightConfig)
+                 null
          );
     }
     public static MecanumConfig driveConfig = new MecanumConfig(
@@ -39,6 +40,11 @@ public class Constants {
     public static PinpointConfig localizerConfig = new PinpointConfig(
             pinpointConfig -> {
                 pinpointConfig.name.set("pinpoint");
+                pinpointConfig.xPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
+                pinpointConfig.yPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
+                pinpointConfig.yPodOffset.set(2.1);
+                pinpointConfig.xPodOffset.set(2.1);
+
             }
 
     );

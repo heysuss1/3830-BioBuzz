@@ -21,7 +21,6 @@ import java.util.List;
 
 public class Robot {
     List<LynxModule> allHubs;
-    public final Drive driveTrain;
     public final Hood hood;
     public final Flywheel flywheel;
     public final Turret turret;
@@ -35,7 +34,7 @@ public class Robot {
 
     public Robot(HardwareMap hwMap, Telemetry telemetry){
         follower = Constants.create(hwMap);
-        driveTrain = new Drive(hwMap);
+//        driveTrain = new Drive(hwMap);
         hood = new Hood(hwMap, telemetry);
         flywheel = new Flywheel(hwMap);
         turret = new Turret(hwMap, telemetry);

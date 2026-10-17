@@ -10,9 +10,6 @@ import com.qualcomm.robotcore.util.Range;
 
 public class Drive {
 
-    public Drive(HardwareMap hwMap) {
-
-    }
 }
 
 

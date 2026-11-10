@@ -20,7 +20,7 @@ public class Turret {
     private static final class TurretParams {
         private static final double KP = 0.0, KI = 0.0, KD = 0.0, KF = 0.0, I_ZONE = 0.0;
         private static final double GEAR_RATIO = 32.0/120.0, TICKS_PER_REVOLUTION = 28;
-        private static final double TOLERANCE = 1.5;
+        private static final double TOLERANCE = 0.0261799; //(1.5 degrees in radians)
         //private static final double
         private static final double MAX_TURRET_ROTATION = 10.0 * Math.PI / 9.0; //in each direction, in radians
 

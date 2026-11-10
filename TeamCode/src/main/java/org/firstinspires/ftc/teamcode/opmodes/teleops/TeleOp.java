@@ -49,7 +49,7 @@ public class TeleOp extends LinearOpMode {
                 robot.transfer.setHoldMode();
             }
 
-            if (gamepad1.right_trigger_pressed){
+            if (gamepad1.rightTriggerWasPressed()){
                 fire.start();
             }
 

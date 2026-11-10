@@ -2,22 +2,31 @@ package org.firstinspires.ftc.teamcode.controllers;
 
 public class PIDFF {
     // PID: Proportional, Integral, and Derivative
-    private final double kp;
-    private final double ki;
-    private final double kd;
+    private  double kp;
+    private  double ki;
+    private  double kd;
 
     // Feedforward: constant, velocity, and acceleration
-    private final double ks; // predicts static friction
-    private final double kv; // predicts kinetic friction
-    private final double ka; // predicts inertia
+    private  double ks; // predicts static friction
+    private  double kv; // predicts kinetic friction
+    private  double ka; // predicts inertia
 
     // Utility vars
     private double integral = 0;
-    private final double integralMax; // maximum integral size
+    private  double integralMax; // maximum integral size
     private double lastError = 0;
     private boolean firstRun = true;
 
     public PIDFF(double kp, double ki, double kd, double ks, double kv, double ka, double integralMax) {
+        this.kp = kp;
+        this.ki = ki;
+        this.kd = kd;
+        this.ks = ks;
+        this.kv = kv;
+        this.ka = ka;
+        this.integralMax = integralMax;
+    }
+    public void setCoefficients(double kp, double ki, double kd, double ks, double kv, double ka, double integralMax) {
         this.kp = kp;
         this.ki = ki;
         this.kd = kd;

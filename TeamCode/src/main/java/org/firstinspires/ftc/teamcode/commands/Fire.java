@@ -10,7 +10,7 @@ public class Fire {
     private final ElapsedTime timer = new ElapsedTime();
     private final double SHOT_TIME = 1.5;
     enum FireStates{START, FIRE, DONE}
-    FireStates fireState = FireStates.START;
+    FireStates fireState = FireStates.DONE;
     public FireStates getFireState(){
         return fireState;
     }

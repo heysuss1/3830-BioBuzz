@@ -18,8 +18,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Robot;
 
 public class Hood {
-    private HardwareMap hwMap;
-    private Follower follower;
     private Telemetry telemetry;
     private final Servo pitchServo;
     private static final double TOLERANCE = 0.1;
@@ -40,7 +38,6 @@ public class Hood {
 
 
     public Hood(HardwareMap hwMap, Telemetry telemetry) {
-        this.hwMap = hwMap;
         this.telemetry = telemetry;
 
         pitchServo = hwMap.get(Servo.class, "pitchServo");
@@ -59,6 +56,9 @@ public class Hood {
     }
 
     public boolean isAtTarget(){
+        if (pitchTarget == null) {
+            return false;
+        }
         return Math.abs(getPitchTarget()-getPitchPose()) < TOLERANCE;
     }
     public void setPose(double pose) {

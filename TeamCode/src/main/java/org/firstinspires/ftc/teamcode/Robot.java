@@ -31,6 +31,7 @@ public class Robot {
     public ShotCalculator shotCalc; //will be made final once cade shenanigans are figured and sorted out
 
     public static Pose teleOpStartPose;
+    public static Boolean autoHasRan = false;
 
     public Robot(HardwareMap hwMap, Telemetry telemetry){
         follower = Constants.create(hwMap);
@@ -51,7 +52,7 @@ public class Robot {
     }
     public void setRobotCentricDriving(Gamepad  gamepad1){
         follower.manual(
-        -gamepad1.left_stick_y,
+        gamepad1.left_stick_y,
         gamepad1.left_stick_x,
         gamepad1.right_stick_x
         );
@@ -85,7 +86,9 @@ public class Robot {
     }
 
     public void startFromTeleop(){
-        follower.setPose(teleOpStartPose);
+        if (autoHasRan){
+            follower.setPose(teleOpStartPose);
+        }
     }
 
     public void update(){

@@ -41,7 +41,7 @@ public class Robot {
         turret = new Turret(hwMap, telemetry);
         transfer = new Transfer(hwMap);
         allHubs = hwMap.getAll(LynxModule.class);
-//        shotCalc = new ShotCalculator();
+        shotCalc = new ShotCalculator();
     }
 
     public Team getTeam(){
@@ -53,16 +53,16 @@ public class Robot {
     public void setRobotCentricDriving(Gamepad  gamepad1){
         follower.manual(
         gamepad1.left_stick_y,
-        gamepad1.left_stick_x,
-        gamepad1.right_stick_x
+        -gamepad1.left_stick_x,
+        -gamepad1.right_stick_x
         );
 
     }
     public void setFieldCentricDriving(Gamepad gamepad1){
         DrivePowers powers = ManualDrive.fieldCentric(
-                -gamepad1.left_stick_y,
-                gamepad1.left_stick_x,
-                gamepad1.right_stick_x,
+                gamepad1.left_stick_y,
+                -gamepad1.left_stick_x,
+                -gamepad1.right_stick_x,
                 follower.pose().heading()
         );
         follower.manual(powers);

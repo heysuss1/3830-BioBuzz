@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.opmodes.testers;
 
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Robot;
@@ -29,6 +31,7 @@ public class ShooterTest extends LinearOpMode {
         robot = new Robot(hardwareMap, telemetry);
         Flywheel flywheel = robot.flywheel;
         Transfer transfer = robot.transfer;
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         waitForStart();
         while (opModeIsActive()) {
             robot.flywheel.setPIDFF(kP, kI, kD, kS, kV, kA, integralMax);
@@ -55,6 +58,7 @@ public class ShooterTest extends LinearOpMode {
             telemetry.addData("Target RPM", flywheel.getTargetRPM());
             telemetry.addData("At Target", flywheel.isAtTarget());
             telemetry.addData("Power", flywheel.getPower());
+            transfer.transferUpdate();
             telemetry.update();
         }
     }

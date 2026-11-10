@@ -42,6 +42,7 @@ public class Fire {
                 if (timer.seconds() > SHOT_TIME) {
                     end(false);
                     setFireState(FireStates.DONE);
+                    robot.flywheel.setTargetRPM(null);
                 }
                 break;
         }

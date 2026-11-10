@@ -47,7 +47,7 @@ public class Flywheel {
     }
 
     public void setPIDFF(double kp, double ki, double kd, double ks, double kv, double ka, double integralMax) {
-        pidff.setCoefficients(kp, ki, kd, kv, ks, ka, integralMax);
+        pidff.setCoefficients(kp, ki, kd, ks, kv, ka, integralMax);
     }
 
     public void setPower(double power){
@@ -83,7 +83,7 @@ public class Flywheel {
             totalPower = Math.min(Math.max(totalPower, 0), 1);
             flyMotor.setPower(totalPower);
 
-        } else if (targetRPM == null){
+        } else {
             flyMotor.setPower(0);
         }
     }

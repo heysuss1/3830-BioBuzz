@@ -79,7 +79,7 @@ public class Robot {
         }
     }
     public boolean allSystemsReady(){
-        return (flywheel.isAtTarget() && hood.isAtTarget() && turret.isAtTarget());
+        return (flywheel.isAtTarget() /*hood.isAtTarget()*/ /*&& turret.isAtTarget()*/);
     }
     public static void setTeleOpStartPose(Pose pose){
         teleOpStartPose = pose;

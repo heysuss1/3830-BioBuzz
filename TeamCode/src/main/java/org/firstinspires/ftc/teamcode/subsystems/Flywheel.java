@@ -61,6 +61,7 @@ public class Flywheel {
         return ticksPerSecond*60.0/TICKS_PER_REV;
     }
     public boolean isAtTarget(){
+        if (targetRPM == null) return false;
         return Math.abs(getRPM() - targetRPM) < TOLERANCE;
     }
 

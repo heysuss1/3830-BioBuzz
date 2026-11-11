@@ -25,16 +25,16 @@ public class ShooterTest extends LinearOpMode {
     public static boolean stopShooter = false;
     public static double power;
 
-    public Robot robot;
+//    public Robot robot;
     @Override
     public void runOpMode() throws InterruptedException {
-        robot = new Robot(hardwareMap, telemetry);
-        Flywheel flywheel = robot.flywheel;
-        Transfer transfer = robot.transfer;
+//        robot = new Robot(hardwareMap, telemetry);
+        Flywheel flywheel = new Flywheel(hardwareMap);
+//        Transfer transfer = robot.transfer;
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         waitForStart();
         while (opModeIsActive()) {
-            robot.flywheel.setPIDFF(kP, kI, kD, kS, kV, kA, integralMax);
+            flywheel.setPIDFF(kP, kI, kD, kS, kV, kA, integralMax);
             flywheel.setTargetRPM(targetRPM);
             if (stopShooter){
                 flywheel.setPower(0);
@@ -44,21 +44,12 @@ public class ShooterTest extends LinearOpMode {
                 flywheel.updateFly();
             }
 
-            if (gamepad1.rightBumperWasPressed()){
-                transfer.setIntakeMode();
-            } else if (gamepad1.circleWasPressed()){
-                transfer.setEmptyMode();
-            } else if (gamepad1.xWasPressed()){
-                transfer.setHoldMode();
-            } else if (gamepad1.rightTriggerWasPressed()){
-                transfer.setUptakeMode();
-            }
 
             telemetry.addData("RPM", flywheel.getRPM());
             telemetry.addData("Target RPM", flywheel.getTargetRPM());
             telemetry.addData("At Target", flywheel.isAtTarget());
             telemetry.addData("Power", flywheel.getPower());
-            transfer.transferUpdate();
+//            transfer.transferUpdate();
             telemetry.update();
         }
     }

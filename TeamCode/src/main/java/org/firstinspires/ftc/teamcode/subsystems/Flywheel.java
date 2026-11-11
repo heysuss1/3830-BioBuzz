@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -9,6 +10,7 @@ import org.firstinspires.ftc.teamcode.controllers.PIDFF;
 public class Flywheel {
     private final DcMotorEx flyMotor;
     private final ElapsedTime timer;
+    private double kP = 0.003; double kV = 0.0001745; double kI = 0; double kS = 0.068; double kD = 0.000001;
     private final PIDFF pidff = new PIDFF(0,0,0,0,0,0,0);
     private Double targetRPM = null;
     private double lastTime;
@@ -23,6 +25,7 @@ public class Flywheel {
         this.flyMotor = hwMap.get(DcMotorEx.class, "flywheel");
         this.flyMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         this.flyMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        this.flyMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         this.timer = new ElapsedTime();
         this.timer.reset();

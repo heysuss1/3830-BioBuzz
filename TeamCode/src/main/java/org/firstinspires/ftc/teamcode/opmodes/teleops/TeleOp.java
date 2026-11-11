@@ -20,7 +20,7 @@ import java.util.Timer; //idk if this is the right one
 public class TeleOp extends LinearOpMode {
     private Robot robot;
     ElapsedTime loopTimer = new ElapsedTime();
-    //Place holder before runner is created:
+    //Placeholder before runner is created:
     Fire fire;
     public void runOpMode() {
         robot = new Robot(hardwareMap, telemetry);
@@ -68,6 +68,7 @@ public class TeleOp extends LinearOpMode {
             robot.shotCalc.update(robot.follower.pose(), robot.getTeam(),
                     Vector.pedroVelocityToVector(robot.follower.velocity()));
             robot.flywheel.setTargetRPM(robot.shotCalc.getRPM());
+            robot.hood.setPitchTarget(robot.shotCalc.getPitch());
             fire.update();
             robot.update();
             robot.setTeam(team);

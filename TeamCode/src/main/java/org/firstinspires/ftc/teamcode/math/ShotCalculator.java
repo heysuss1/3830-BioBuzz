@@ -85,8 +85,8 @@ public class ShotCalculator
     }
     private double pitchRegress(double d) { //returns the servo position
 
-        // I'd suggest a degree-2
-        return -0.2182 * Math.atan(1.03464 * d - 22.63423) + 0.32795;
+        pitch = -0.2182 * Math.atan(1.03464 * d - 22.63423) + 0.32795;
+        return Math.round(pitch*100) / 100;
     }
 
     //getters

@@ -10,8 +10,8 @@ import org.firstinspires.ftc.teamcode.controllers.PIDFF;
 public class Flywheel {
     private final DcMotorEx flyMotor;
     private final ElapsedTime timer;
-    private double kP = 0.003; double kV = 0.0001745; double kI = 0; double kS = 0.068; double kD = 0.000001;
-    private final PIDFF pidff = new PIDFF(0,0,0,0,0,0,0);
+    private double kP = 0.003; double kV = 0.0001745; double kI = 0; double kS = 0.042; double kD = 0.000001;
+    private final PIDFF pidff = new PIDFF(kP,0,0,kS,kV,0,0);
     private Double targetRPM = null;
     private double lastTime;
     private boolean alwaysShoot = true;

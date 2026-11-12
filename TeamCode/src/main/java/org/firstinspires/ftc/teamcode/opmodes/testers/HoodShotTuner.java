@@ -27,13 +27,13 @@ public class HoodShotTuner extends LinearOpMode {
     public static double HOOD_STEP = 0.02;
 
     // flywheel (paste from Shooter Test)
-    public static double kP = 0, kS = 0, kV = 0;
+    public static double kP = 0.003, kS = 0.068, kV = 0.0001745;
     public static double targetRPM = 3000;
     public static double RPM_STEP = 100;
 
     // field (Pedro coords, inches). Defaults = top red hive in FieldConstants
-    public static double startX = 72, startY = 72, startHeadingDeg = 90;
-    public static double hiveX = 58, hiveY = 85;
+    public static double startX = 86.08, startY = 8.3, startHeadingDeg = 90;
+    public static double hiveX = 53.35, hiveY = 85;
     public static double driveScale = 0.4;
 
     @Override
@@ -41,7 +41,7 @@ public class HoodShotTuner extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         Servo hood = hardwareMap.get(Servo.class, "pitchServo");
-        AnalogInput hoodEncoder = hardwareMap.get(AnalogInput.class, "pitchEncoder");
+//        AnalogInput hoodEncoder = hardwareMap.get(AnalogInput.class, "pitchEncoder");
         Flywheel flywheel = new Flywheel(hardwareMap);
         Transfer transfer = new Transfer(hardwareMap);
         Follower follower = Constants.create(hardwareMap);
@@ -89,6 +89,7 @@ public class HoodShotTuner extends LinearOpMode {
 
             // ---- distance to hive
             Pose p = follower.pose();
+            flywheel.setTargetRPM(targetRPM);
             double distance = Math.hypot(hiveX - p.x(), hiveY - p.y());
             double rpm = flywheel.getRPM();
 
@@ -99,10 +100,10 @@ public class HoodShotTuner extends LinearOpMode {
             telemetry.addData("rpm", rpm);
             telemetry.addData("rpm ready", spin && Math.abs(rpm - targetRPM) < 50);
             telemetry.addData("hood cmd", hoodPos);
-            telemetry.addData("hood encoder (0-1)", hoodEncoder.getVoltage() / hoodEncoder.getMaxVoltage());
+//            telemetry.addData("hood encoder (0-1)", hoodEncoder.getVoltage() / hoodEncoder.getMaxVoltage());
             telemetry.update();
+            flywheel.updateFly();
         }
-        flywheel.setTargetRPM(null);
-        flywheel.updateFly();
+
     }
 }

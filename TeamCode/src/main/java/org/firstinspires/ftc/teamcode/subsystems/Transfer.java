@@ -25,7 +25,7 @@ public class Transfer {
     // intake, uptake speed constants
     TransferStates transferState = TransferStates.HOLD;
     final double INTAKE_SPEED = 1;
-    final double TRANSFER_FOR_INTAKE_SPEED = 0.2;
+    final double TRANSFER_FOR_INTAKE_SPEED = 0.1;
 
 
     public Transfer(HardwareMap hwMap){

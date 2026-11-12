@@ -18,12 +18,16 @@ public class Turret {
     private Double turretTarget = null;
     private int turretLayer;
     private static final class TurretParams {
-        private static final double KP = 0.0, KI = 0.0, KD = 0.0, KF = 0.0, I_ZONE = 0.0;
-        private static final double GEAR_RATIO = 32.0/120.0, TICKS_PER_REVOLUTION = 28;
+        private static final double KP = 0.001, KI = 0.0, KD = 0.05, KF = 0.0, I_ZONE = 0.0;
+        private static final double GEAR_RATIO = 32.0/120.0, TICKS_PER_REVOLUTION = 557;
         private static final double TOLERANCE = 0.0261799; //(1.5 degrees in radians)
         //private static final double
-        private static final double MAX_TURRET_ROTATION = 10.0 * Math.PI / 9.0; //in each direction, in radians
+        private static final double MAX_TURRET_ROTATION = Math.PI / 4.0; //in each direction, in radians
 
+    }
+
+    public void setPIDFCoefficients(double kP, double kI, double kD){
+        turretController.setPidCoefficients(kP, kI, kD);
     }
 
     public Turret(HardwareMap hwMap, Telemetry telemetry) {

@@ -21,7 +21,7 @@ public class Hood {
     private Telemetry telemetry;
     private final Servo pitchServo;
     private static final double TOLERANCE = 0.1;
-    private final AnalogInput pitchEncoder;
+//    private final AnalogInput pitchEncoder;
 
     public Double pitchTarget = null;
 
@@ -44,7 +44,7 @@ public class Hood {
         //pitchServo.setDirection(Servo.Direction.REVERSE);
         //^ perhaps
 
-        pitchEncoder = hwMap.get(AnalogInput.class, "pitchEncoder");
+//        pitchEncoder = hwMap.get(AnalogInput.class, "pitchEncoder");
         //idk if we're using an analog input again but i think that's what the axons have right?
     }
 
@@ -55,12 +55,12 @@ public class Hood {
         return pitchTarget;
     }
 
-    public boolean isAtTarget(){
-        if (pitchTarget == null) {
-            return false;
-        }
-        return Math.abs(getPitchTarget()-getPitchPose()) < TOLERANCE;
-    }
+//    public boolean isAtTarget(){
+//        if (pitchTarget == null) {
+//            return false;
+//        }
+//        return Math.abs(getPitchTarget()-getPitchPose()) < TOLERANCE;
+//    }
     public void setPose(double pose) {
         this.pitchServo.setPosition(pose);
     }
@@ -70,9 +70,9 @@ public class Hood {
             this.pitchServo.setPosition(pitchTarget);
     }
 
-    public double getPitchPose() {
-        return pitchEncoder.getVoltage()/pitchEncoder.getMaxVoltage();
-    }
+//    public double getPitchPose() {
+//        return pitchEncoder.getVoltage()/pitchEncoder.getMaxVoltage();
+//    }
 
 
 }

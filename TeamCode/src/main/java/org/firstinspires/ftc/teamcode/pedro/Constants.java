@@ -10,6 +10,11 @@ import com.pedropathing.revhub.localizers.PinpointLocalizer;
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
+import kotlin.Unit;
+
 public class Constants {
     public static Follower create(HardwareMap h) {
          return new Follower(
@@ -41,9 +46,11 @@ public class Constants {
             pinpointConfig -> {
                 pinpointConfig.name.set("pinpoint");
                 pinpointConfig.xPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
-                pinpointConfig.yPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
-                pinpointConfig.yPodOffset.set(2.1);
-                pinpointConfig.xPodOffset.set(2.1);
+                pinpointConfig.yPodDirection.set(GoBildaPinpointDriver.EncoderDirection.REVERSED);
+                pinpointConfig.offsetUnits.set(DistanceUnit.MM);
+                pinpointConfig.podType.set(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+                pinpointConfig.yPodOffset.set(-40.45);
+                pinpointConfig.xPodOffset.set(-151.162);
 
             }
 

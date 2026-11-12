@@ -20,7 +20,7 @@ public class TurretTuner extends LinearOpMode {
     // geometry — must match Turret.TurretParams
     public static double GEAR_RATIO = 32.0 / 120.0;
     public static double TICKS_PER_REV = 28;   // motor encoder ticks per rev of the motor OUTPUT shaft
-    public static double MAX_DEG = 200;        // soft limit each way (10pi/9 rad)
+    public static double MAX_DEG = 45;        // soft limit each way (10pi/9 rad)
     public static boolean REVERSE_MOTOR = false;
 
     // test settings

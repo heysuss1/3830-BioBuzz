@@ -19,6 +19,8 @@ import org.firstinspires.ftc.teamcode.subsystems.Turret;
 
 import java.util.List;
 
+
+
 public class Robot {
     List<LynxModule> allHubs;
     public final Hood hood;
@@ -52,7 +54,7 @@ public class Robot {
     }
     public void setRobotCentricDriving(Gamepad  gamepad1){
         follower.manual(
-        gamepad1.left_stick_y,
+        -gamepad1.left_stick_y,
         -gamepad1.left_stick_x,
         -gamepad1.right_stick_x
         );
@@ -93,7 +95,7 @@ public class Robot {
 
     public void update(){
         follower.update();
-        turret.update();
+//        turret.update();
         flywheel.updateFly();
         transfer.transferUpdate();
         hood.update();

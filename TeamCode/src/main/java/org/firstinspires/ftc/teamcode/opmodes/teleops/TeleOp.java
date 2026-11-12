@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.opmodes.teleops;
 
 
+import com.acmerobotics.dashboard.config.Config;
+import com.pedropathing.math.Pose;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -16,12 +18,15 @@ import org.firstinspires.ftc.teamcode.math.Vector;
 import java.util.Timer; //idk if this is the right one
 
 
+
+@Config
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Main Tele")
 public class TeleOp extends LinearOpMode {
     private Robot robot;
     ElapsedTime loopTimer = new ElapsedTime();
     //Placeholder before runner is created:
     Fire fire;
+    public static double kP, kI, kD, kF;
     public void runOpMode() {
         robot = new Robot(hardwareMap, telemetry);
         fire = new Fire(robot);
@@ -29,9 +34,11 @@ public class TeleOp extends LinearOpMode {
         Robot.Team team = Robot.Team.RED;
         robot.startFromTeleop();
         robot.implementManualBulkReads();
-
+        robot.follower.setPose(new Pose(86.084, 8.35, Math.toRadians(90))); //blue starting pose
+//        robot.follower.setPose(new Pose(53, 8.2, Math.toRadians(90)));
         waitForStart();
         while (opModeIsActive()) {
+            robot.turret.setPIDFCoefficients(kP, kI, kD);
             double loopMiliseconds = loopTimer.milliseconds();
             loopTimer.reset();
             robot.turret.calcTurretTarget(
@@ -73,6 +80,11 @@ public class TeleOp extends LinearOpMode {
             robot.update();
             robot.setTeam(team);
             telemetry.addData("Time", "%.2f", loopMiliseconds);
+            telemetry.addData("pose", robot.follower.pose());
+            telemetry.addData("target rpm", robot.shotCalc.getRPM());
+            telemetry.addData("turret target", robot.turret.getTurretTarget());
+            telemetry.addData("turret pos", robot.turret.getTurretRadians());
+            telemetry.addData("pitch", robot.shotCalc.getPitch());
             telemetry.update();
             robot.clearCache();
         }

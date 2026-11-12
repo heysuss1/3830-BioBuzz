@@ -78,9 +78,19 @@ public class ShotCalculator
 
     //regressions
     //see https://www.desmos.com/calcuator/zz6c359i9y
-    private double rpmRegress(double d) { //returns the rpm
-        // using the xy distance to the hive, determine rpm
-        // I'd suggest a degree-2
+    private double rpmRegress(double d) {
+        if(d<22) {
+            return 16.666667*d + 2683.3333;
+        } else if (d<24) {
+            return 0*d + 3050;
+        } else if (d<31) {
+            return 7.1428571*d + 2878.5714;
+        } else if (d<38) {
+            return 14.285714*d + 2657.1429;
+        } else {
+            return 25*d + 2250;
+        }
+        //fallback to a quardratic regression
         return 0.4447 * d * d - 15.16*d + 3147.72;
     }
     private double pitchRegress(double d) { //returns the servo position

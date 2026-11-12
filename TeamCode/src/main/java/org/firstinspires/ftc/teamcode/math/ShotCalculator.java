@@ -79,13 +79,13 @@ public class ShotCalculator
     //regressions
     //see https://www.desmos.com/calcuator/zz6c359i9y
     private double rpmRegress(double d) {
-        if(d<22) {
+        if(d<=22) {
             return 16.666667*d + 2683.3333;
-        } else if (d<24) {
+        } else if (d<=24) {
             return 0*d + 3050;
-        } else if (d<31) {
+        } else if (d<=31) {
             return 7.1428571*d + 2878.5714;
-        } else if (d<38) {
+        } else if (d<=38) {
             return 14.285714*d + 2657.1429;
         } else {
             return 25*d + 2250;

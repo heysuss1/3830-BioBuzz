@@ -47,7 +47,7 @@ public class TeleOp extends LinearOpMode {
             double loopMiliseconds = loopTimer.milliseconds();
             loopTimer.reset();
             robot.turret.calcTurretTarget(
-                    AimCalculator.calcRawTargetYaw(robot.follower.pose()),
+                    robot.aimCalc.calcRawTargetYaw(robot.follower.pose()),
                     robot.follower.pose().heading()
             );
 
@@ -84,6 +84,15 @@ public class TeleOp extends LinearOpMode {
             if (gamepad1.dpadUpWasPressed()){
                 robot.flywheel.setAlwaysShoot(!robot.flywheel.getAlwaysShoot());
             }
+
+            //When dpad down is pressed, reset the target pos of the right goal
+            //to where the robot is currently sitting
+//            if (gamepad1.dpadDownWasPressed()) {
+//                robot.aimCalc.updateTargetPosition(
+//                        robot.follower.pose().x(),
+//                        robot.follower.pose().y()
+//                );
+//            }
 
 
             //ShotCalc update adjusts the RPM necessary to get into the goal

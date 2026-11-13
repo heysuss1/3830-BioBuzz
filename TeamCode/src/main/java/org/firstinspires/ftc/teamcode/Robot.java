@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.math.AimCalculator;
 import org.firstinspires.ftc.teamcode.math.ShotCalculator;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
@@ -28,6 +29,7 @@ public class Robot {
     public final Turret turret;
     public final Transfer transfer;
     public final Follower follower;
+    public AimCalculator aimCalc;
     public double speed = 0.8;
     public enum Team {RED, BLUE}
     Team team = Team.RED;

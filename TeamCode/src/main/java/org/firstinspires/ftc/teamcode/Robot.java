@@ -43,6 +43,7 @@ public class Robot {
 //        driveTrain = new Drive(hwMap);
         hood = new Hood(hwMap, telemetry);
         flywheel = new Flywheel(hwMap);
+        aimCalc = new AimCalculator();
         turret = new Turret(hwMap, telemetry);
         transfer = new Transfer(hwMap);
         allHubs = hwMap.getAll(LynxModule.class);

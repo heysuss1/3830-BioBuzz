@@ -10,19 +10,32 @@ import com.pedropathing.math.Pose;
 //For turret
 public class AimCalculator {
     private static final double FIELD_LENGTH = 141.5;
-    private static final double HIVE_LEG_X = 47.2;
-    private static final double TARGET_X = 57.7;
-    private static final double RIGHT_TARGET_Y = 55.0;
-    private static final double LEFT_TARGET_Y = FIELD_LENGTH-RIGHT_TARGET_Y;
+    private double HIVE_LEG_X = 47.2;
+    private double TARGET_X = 57.7;
+    private double RIGHT_TARGET_Y = 55.0;
+    private double LEFT_TARGET_Y = FIELD_LENGTH-RIGHT_TARGET_Y;
     private static final double MAX_SHOOTING_ANGLE = 0.3;
     //radians from y=0 to the line where we can start to shoot, should be small as possible
 
-    public static double RIGHT_HIVE_AIM_BOUNDARY(double x) {
+    public AimCalculator() {
+        HIVE_LEG_X = 47.2;
+        TARGET_X = 57.7;
+        RIGHT_TARGET_Y = 55.0;
+        LEFT_TARGET_Y = FIELD_LENGTH - RIGHT_TARGET_Y;
+    }
+    public double RIGHT_HIVE_AIM_BOUNDARY(double x) {
         return -Math.tan(MAX_SHOOTING_ANGLE) * Math.abs(x-TARGET_X) + RIGHT_TARGET_Y;
     }
 
-    public static double LEFT_HIVE_AIM_BOUNDARY(double x) {
+    public double LEFT_HIVE_AIM_BOUNDARY(double x) {
         return Math.tan(MAX_SHOOTING_ANGLE) * Math.abs(x-TARGET_X) + LEFT_TARGET_Y;
+    }
+
+    public void updateTargetPosition(double newTargetX, double newRightTargetY) {
+        this.TARGET_X = newTargetX;
+        this.RIGHT_TARGET_Y = newRightTargetY;
+        this.LEFT_TARGET_Y = newRightTargetY + 31.5;
+        this.HIVE_LEG_X = newTargetX - 10.5;
     }
 
     /**
@@ -31,7 +44,7 @@ public class AimCalculator {
     point without wasting computing power pointing at the goal when we can't shoot there.
      Reference here: ≈≈
      **/
-    public static Double calcRawTargetYaw(Pose pose) {
+    public Double calcRawTargetYaw(Pose pose) {
         double x = pose.x();
         double y = pose.y();
 

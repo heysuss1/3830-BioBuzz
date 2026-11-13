@@ -36,9 +36,13 @@ public class TeleOp extends LinearOpMode {
         kP = 0.5;
 
         Robot.Team team = Robot.Team.RED;
-        robot.startFromTeleop();
+
         robot.implementManualBulkReads();
-        robot.follower.setPose(new Pose(52.8, 8.2, Math.toRadians(90))); //blue starting pose
+        if (Robot.autoHasRan){
+            robot.startFromTeleop();
+        } else {
+            robot.follower.setPose(new Pose(52.8, 8.2, Math.toRadians(90))); //blue starting pose
+        }
 //        robot.follower.setPose(new Pose(53, 8.2, Math.toRadians(90)));
         waitForStart();
         while (opModeIsActive()) {

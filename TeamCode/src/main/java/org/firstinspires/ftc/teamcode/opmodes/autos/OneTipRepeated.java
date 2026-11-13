@@ -107,7 +107,6 @@ public class OneTipRepeated extends LinearOpMode{
             while (opModeIsActive()){
 
 
-                robot.follower.update();
                 fire.update();
                 pathUpdate();
                 telemetry.addData("Auto State", state);
@@ -116,6 +115,10 @@ public class OneTipRepeated extends LinearOpMode{
                 telemetry.addData("Position", robot.follower.pose());
                 telemetry.addData("Shot Count", shotCount);
                 telemetry.update();
+                robot.flywheel.setTargetRPM(3350.0);
+                robot.hood.setPitchTarget(0.0);
+                robot.turret.lockTurret = true;
+                Robot.setTeleOpStartPose(robot.follower.pose());
                 robot.update();
             }
             Robot.setTeleOpStartPose(robot.follower.pose());

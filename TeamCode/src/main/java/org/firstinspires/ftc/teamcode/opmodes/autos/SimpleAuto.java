@@ -44,6 +44,7 @@ public class SimpleAuto extends LinearOpMode {
         switch(state){
             case START:
                 //code to shoot;
+
                 fire.start();
                 setState(State.SHOOTING);
                 break;
@@ -83,6 +84,11 @@ public class SimpleAuto extends LinearOpMode {
             telemetry.addData("Position", robot.follower.pose());
             telemetry.update();
             robot.update();
+            robot.flywheel.setTargetRPM(3350.0);
+            robot.hood.setPitchTarget(0.0);
+            robot.turret.lockTurret = true;
+            Robot.setTeleOpStartPose(robot.follower.pose());
+
         }
         Robot.setTeleOpStartPose(robot.follower.pose());
     }

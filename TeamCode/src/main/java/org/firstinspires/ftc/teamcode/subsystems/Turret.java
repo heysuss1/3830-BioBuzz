@@ -32,7 +32,6 @@ public class Turret {
     public void setPIDFCoefficients(double kP, double kI, double kD){
         turretController.setPidCoefficients(kP, kI, kD);
     }
-
     public Turret(HardwareMap hwMap, Telemetry telemetry) {
         this.hwMap = hwMap;
         this.telemetry = telemetry;

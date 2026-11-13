@@ -16,6 +16,9 @@ public class Turret {
     private DcMotorEx turretMotor;
     private PidfController turretController;
     private Double turretTarget = null;
+
+    public boolean lockTurret = false;
+    public Double lockedTurretTarget = 0.0;
     private int turretLayer;
     private static final class TurretParams {
         private static final double KP = 0.001, KI = 0.0, KD = 0.05, KF = 0.0, I_ZONE = 0.0;
@@ -57,6 +60,9 @@ public class Turret {
 
         telemetry.addData("Turret Target Raw:", turretTargetRaw);
         telemetry.addData("Turret Target Transformed:", turretTargetTransformed);
+        if (lockTurret){
+            this.turretTarget = lockedTurretTarget;
+        }
         if (-TurretParams.MAX_TURRET_ROTATION < turretTargetTransformed &&
                 turretTargetTransformed < TurretParams.MAX_TURRET_ROTATION) {
             turretTarget = turretTargetTransformed;

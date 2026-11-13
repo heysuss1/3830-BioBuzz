@@ -61,9 +61,8 @@ public class Turret {
         telemetry.addData("Turret Target Raw:", turretTargetRaw);
         telemetry.addData("Turret Target Transformed:", turretTargetTransformed);
         if (lockTurret){
-            this.turretTarget = lockedTurretTarget;
-        }
-        if (-TurretParams.MAX_TURRET_ROTATION < turretTargetTransformed &&
+            this.turretTarget = Range.clip(lockedTurretTarget, -TurretParams.MAX_TURRET_ROTATION, TurretParams.MAX_TURRET_ROTATION);
+        } else if (-TurretParams.MAX_TURRET_ROTATION < turretTargetTransformed &&
                 turretTargetTransformed < TurretParams.MAX_TURRET_ROTATION) {
             turretTarget = turretTargetTransformed;
         } else {

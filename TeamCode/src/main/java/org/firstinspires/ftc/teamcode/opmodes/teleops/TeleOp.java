@@ -54,11 +54,11 @@ public class TeleOp extends LinearOpMode {
             robot.setRobotCentricDriving(gamepad1); //robot centric for now, can be field
 
 
-            if (gamepad2.dpad_up){
-                robot.turret.lockedTurretTarget += 1;
+            if (gamepad2.dpadUpWasPressed()){
+                robot.turret.lockedTurretTarget += Math.toRadians(5);
             }
-            if (gamepad2.dpad_down){
-                robot.turret.lockedTurretTarget -= 1;
+            if (gamepad2.dpadUpWasPressed()){
+                robot.turret.lockedTurretTarget -= Math.toRadians(5);
             }
             if (gamepad2.rightBumperWasPressed()){
                 robot.turret.lockTurret = !robot.turret.lockTurret;

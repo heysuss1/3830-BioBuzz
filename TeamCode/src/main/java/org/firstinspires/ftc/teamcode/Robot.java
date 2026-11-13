@@ -28,6 +28,7 @@ public class Robot {
     public final Turret turret;
     public final Transfer transfer;
     public final Follower follower;
+    public double speed = 0.8;
     public enum Team {RED, BLUE}
     Team team = Team.RED;
     public ShotCalculator shotCalc; //will be made final once cade shenanigans are figured and sorted out
@@ -54,9 +55,9 @@ public class Robot {
     }
     public void setRobotCentricDriving(Gamepad  gamepad1){
         follower.manual(
-        -gamepad1.left_stick_y,
-        -gamepad1.left_stick_x,
-        -gamepad1.right_stick_x
+        -gamepad1.left_stick_y * speed,
+        -gamepad1.left_stick_x * speed,
+        -gamepad1.right_stick_x * speed
         );
 
     }

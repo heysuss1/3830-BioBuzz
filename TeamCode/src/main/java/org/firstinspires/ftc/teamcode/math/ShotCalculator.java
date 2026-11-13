@@ -31,7 +31,7 @@ public class ShotCalculator
     private Pose getHiveTarget(Pose robotPos){
         double hivePos_x;
         double hivePos_y;
-            if (robotPos.y() > 73){
+            if (robotPos.y() > 70.75){
                 hivePos_x = FieldConstants.TOP_RED_HIVE_POS.x();
                 hivePos_y = FieldConstants.TOP_RED_HIVE_POS.y();
             } else {

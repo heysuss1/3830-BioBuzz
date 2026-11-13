@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.pedropathing.math.Pose;
 
 public class FieldConstants {
-    public final static Pose TOP_RED_HIVE_POS = new Pose(59.8, 92.9);
+    public final static Pose TOP_RED_HIVE_POS = new Pose(57.6, 89.7);
 //    public final static Pose BOTTOM_RED_HIVE_POS = new Pose(58, 58.5);
         public  static Pose BOTTOM_RED_HIVE_POS = new Pose(57.6, 51.8);
 

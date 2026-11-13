@@ -40,7 +40,7 @@ public class TeleOp extends LinearOpMode {
         robot.implementManualBulkReads();
         if (Robot.autoHasRan){
             robot.startFromTeleop();
-,            Robot.autoHasRan = false;
+            Robot.autoHasRan = false;
         } else {
             robot.follower.setPose(new Pose(52.8, 8.2, Math.toRadians(90))); //blue starting pose
         }

@@ -40,6 +40,7 @@ public class TeleOp extends LinearOpMode {
         robot.implementManualBulkReads();
         if (Robot.autoHasRan){
             robot.startFromTeleop();
+,            Robot.autoHasRan = false;
         } else {
             robot.follower.setPose(new Pose(52.8, 8.2, Math.toRadians(90))); //blue starting pose
         }
@@ -61,7 +62,7 @@ public class TeleOp extends LinearOpMode {
             if (gamepad2.dpadUpWasPressed()){
                 robot.turret.lockedTurretTarget += Math.toRadians(5);
             }
-            if (gamepad2.dpadUpWasPressed()){
+            if (gamepad2.dpadDownWasPressed()){
                 robot.turret.lockedTurretTarget -= Math.toRadians(5);
             }
             if (gamepad2.rightBumperWasPressed()){

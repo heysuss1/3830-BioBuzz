@@ -21,7 +21,8 @@ public class Turret {
     public Double lockedTurretTarget = 0.0;
     private int turretLayer;
     private static final class TurretParams {
-        private static final double KP = 0.001, KI = 0.0, KD = 0.05, KF = 0.0, I_ZONE = 0.0;
+//        private static final double KP = 0.001, KI = 0.0, KD = 0.05, KF = 0.0, I_ZONE = 0.0;
+        private static final double KP = 0.5, KI = 0.0, KD = 0, KF = 0.0, I_ZONE = 0.0;
         private static final double GEAR_RATIO = 32.0/120.0, TICKS_PER_REVOLUTION = 557;
         private static final double TOLERANCE = 0.0261799; //(1.5 degrees in radians)
         //private static final double

@@ -104,7 +104,8 @@ public class OneTip4Balls extends LinearOpMode {
             robot.follower.setPose(start);
             Robot.autoHasRan = true;
             timer = new Timer();
-            waitForStart();
+            robot.turret.lockTurret = true;
+        waitForStart();
             while (opModeIsActive()){
 
                 fire.update();
@@ -116,8 +117,11 @@ public class OneTip4Balls extends LinearOpMode {
                 telemetry.addData("Shot Count", shotCount);
                 telemetry.update();
                 robot.flywheel.setTargetRPM(3350.0);
+                robot.turret.calcTurretTarget(
+                        robot.aimCalc.calcRawTargetYaw(robot.follower.pose()),
+                        robot.follower.pose().heading()
+                );
                 robot.hood.setPitchTarget(0.0);
-                robot.turret.lockTurret = true;
                 Robot.setTeleOpStartPose(robot.follower.pose());
 
                 robot.update();

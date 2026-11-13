@@ -116,6 +116,11 @@ public class OneTipRepeated extends LinearOpMode{
                 telemetry.addData("Shot Count", shotCount);
                 telemetry.update();
                 robot.flywheel.setTargetRPM(3350.0);
+                robot.aimCalc.calcRawTargetYaw(new Pose(0.0, 0.0));
+                robot.turret.calcTurretTarget(
+                        robot.aimCalc.calcRawTargetYaw(robot.follower.pose()),
+                        robot.follower.pose().heading()
+                );
                 robot.hood.setPitchTarget(0.0);
                 robot.turret.lockTurret = true;
                 Robot.setTeleOpStartPose(robot.follower.pose());

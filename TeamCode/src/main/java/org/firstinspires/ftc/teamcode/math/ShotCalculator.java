@@ -97,7 +97,7 @@ public class ShotCalculator
             return 25*d + 2250;
         }
         //fallback to a quardratic regression
-        return 0.4447 * d * d - 15.16*d + 3147.72;
+//        return 0.4447 * d * d - 15.16*d + 3147.72;
     }
     private double pitchRegress(double d) { //returns the servo position
 

@@ -32,7 +32,7 @@ public class HoodShotTuner extends LinearOpMode {
     public static double RPM_STEP = 100;
 
     // field (Pedro coords, inches). Defaults = top red hive in FieldConstants
-    public static double startX = 86.08, startY = 8.3, startHeadingDeg = 90;
+    public static double startX = 52.8, startY = 8.2, startHeadingDeg = 90;
     public static double hiveX = 53.35, hiveY = 85;
     public static double driveScale = 0.4;
 

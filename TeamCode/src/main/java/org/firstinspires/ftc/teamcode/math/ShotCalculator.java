@@ -22,6 +22,7 @@ public class ShotCalculator
 
     //outputs
     double rpm = 0;
+    double distance = 0;
     double pitch = 0;
     double yaw = 0;
 
@@ -30,13 +31,13 @@ public class ShotCalculator
     private Pose getHiveTarget(Pose robotPos){
         double hivePos_x;
         double hivePos_y;
-//            if (robotPos.y() > 73){
-//                hivePos_x = FieldConstants.TOP_RED_HIVE_POS.x();
-//                hivePos_y = FieldConstants.TOP_RED_HIVE_POS.y();
-//            } else {
+            if (robotPos.y() > 73){
+                hivePos_x = FieldConstants.TOP_RED_HIVE_POS.x();
+                hivePos_y = FieldConstants.TOP_RED_HIVE_POS.y();
+            } else {
                 hivePos_x = FieldConstants.BOTTOM_RED_HIVE_POS.x();
                 hivePos_y = FieldConstants.BOTTOM_RED_HIVE_POS.y();
-//            }
+            }
 
         return new Pose(hivePos_x, hivePos_y);
     }
@@ -74,6 +75,11 @@ public class ShotCalculator
         this.rpm = rpmRegress(distance);
         this.pitch = pitchRegress(distance);
         this.yaw =  Math.atan2( deltaPos.y(), deltaPos.x()  );
+        this.distance = distance;
+    }
+
+    public double getDistance(){
+        return this.distance;
     }
 
     //regressions

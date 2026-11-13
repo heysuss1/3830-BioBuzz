@@ -11,9 +11,9 @@ import com.pedropathing.math.Pose;
 public class AimCalculator {
     private static final double FIELD_LENGTH = 141.5;
     private static final double HIVE_LEG_X = 47.2;
-    private static final double TARGET_X = 57.7;
-    private static final double RIGHT_TARGET_Y = 55.0;
-    private static final double LEFT_TARGET_Y = FIELD_LENGTH - RIGHT_TARGET_Y;
+    private static final double TARGET_X = 58.5;
+    private static final double RIGHT_TARGET_Y = 51.9;
+    private static final double LEFT_TARGET_Y = 92.9;
     private static final double MAX_SHOOTING_ANGLE = 0.3;
     //radians from y=0 to the line where we can start to shoot, should be small as possible
 

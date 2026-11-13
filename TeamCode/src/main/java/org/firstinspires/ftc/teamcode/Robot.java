@@ -95,7 +95,7 @@ public class Robot {
 
     public void update(){
         follower.update();
-//        turret.update();
+        turret.update();
         flywheel.updateFly();
         transfer.transferUpdate();
         hood.update();

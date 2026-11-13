@@ -57,13 +57,20 @@ public class Turret {
 
         telemetry.addData("Turret Target Raw:", turretTargetRaw);
         telemetry.addData("Turret Target Transformed:", turretTargetTransformed);
-        turretTarget = turretTargetTransformed;
+        if (-TurretParams.MAX_TURRET_ROTATION < turretTargetTransformed &&
+                turretTargetTransformed < TurretParams.MAX_TURRET_ROTATION) {
+            turretTarget = turretTargetTransformed;
+        } else {
+            turretTarget = null;
+        }
         return turretTargetTransformed;
     }
 
     public void update() {
         if (turretTarget != null) {
             turretMotor.setPower(turretController.calculate(turretTarget, getTurretRadians()));
+        } else{
+            turretMotor.setPower(0);
         }
     }
 

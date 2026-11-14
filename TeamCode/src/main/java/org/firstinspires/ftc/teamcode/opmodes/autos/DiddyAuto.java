@@ -82,6 +82,7 @@ public class DiddyAuto extends LinearOpMode{
             timer = new Timer();
             fullAutoTimer = new Timer();
             waitForStart();
+            fullAutoTimer.reset();
             while (opModeIsActive()){
 
 

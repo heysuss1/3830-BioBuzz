@@ -83,7 +83,6 @@ public class DiddyAuto extends LinearOpMode{
 
 
                 fire.update();
-                pathUpdate();
                 telemetry.addData("Auto State", state);
                 telemetry.addData("Fire State", fire.getFireState());
 
@@ -97,6 +96,11 @@ public class DiddyAuto extends LinearOpMode{
                 );
                 robot.hood.setPitchTarget(0.0);
                 Robot.setTeleOpStartPose(robot.follower.pose());
+                sleep(15000);
+                if (timer.seconds() > 15){
+                    pathUpdate();
+                }
+
                 robot.update();
             }
             Robot.setTeleOpStartPose(robot.follower.pose());

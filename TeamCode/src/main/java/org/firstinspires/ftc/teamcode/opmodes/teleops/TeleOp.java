@@ -103,7 +103,7 @@ public class TeleOp extends LinearOpMode {
             }
 
             //When dpad up is pressed, turns always have shooter on/off
-            if (gamepad2.dpadUpWasPressed()){
+            if (gamepad2.triangleWasPressed()){
                 robot.flywheel.setAlwaysShoot(!robot.flywheel.getAlwaysShoot());
             }
 

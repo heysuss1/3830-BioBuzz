@@ -7,6 +7,7 @@ import com.pedropathing.paths.Path;
 import com.pedropathing.utils.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.Fire;
@@ -27,6 +28,7 @@ public class DiddyAuto extends LinearOpMode{
     int shotCount = 0;
 
     PathState state = PathState.START;
+    Timer fullAutoTimer;
     Fire fire;
     Timer timer;
 
@@ -78,6 +80,7 @@ public class DiddyAuto extends LinearOpMode{
 
             Robot.autoHasRan = true;
             timer = new Timer();
+            fullAutoTimer = new Timer();
             waitForStart();
             while (opModeIsActive()){
 
@@ -96,8 +99,7 @@ public class DiddyAuto extends LinearOpMode{
                 );
                 robot.hood.setPitchTarget(0.0);
                 Robot.setTeleOpStartPose(robot.follower.pose());
-                sleep(15000);
-                if (timer.seconds() > 15){
+                if (fullAutoTimer.seconds() > 15){
                     pathUpdate();
                 }
 

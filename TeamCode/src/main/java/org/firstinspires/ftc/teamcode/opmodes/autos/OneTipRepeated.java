@@ -40,11 +40,11 @@ public class OneTipRepeated extends LinearOpMode{
         private final Pose parkPointControl = poseFactory.of(9.4716, 20.3571, 90);
 
         public Path toLoadingZone() {
-            return Paths.line(start, loadingZonePoint).linear(start, loadingZonePoint);
+            return Paths.line(start, loadingZonePoint).linear(start, loadingZonePoint,0.4);
         }
 
         public Path backToShoot() {
-            return Paths.line(loadingZonePoint, start).linear(loadingZonePoint, start);
+            return Paths.line(loadingZonePoint, start).linear(loadingZonePoint, start, 0.6);
         }
 
         public Path toPark() {

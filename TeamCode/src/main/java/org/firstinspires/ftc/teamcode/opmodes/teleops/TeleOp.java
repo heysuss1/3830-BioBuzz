@@ -27,6 +27,8 @@ public class TeleOp extends LinearOpMode {
     ElapsedTime loopTimer = new ElapsedTime();
     //Placeholder before runner is created:
     Fire fire;
+    boolean autoShoot = true;
+    Double targetRPM = 3350.0;
     public static double kP, kI, kD, kF;
     public static double hive_x = 57.6;
     public static double hive_y = 51.8;
@@ -61,16 +63,19 @@ public class TeleOp extends LinearOpMode {
 
 
 
+            if (gamepad2.dpadLeftWasPressed()){
+                autoShoot = !autoShoot;
+            }
             if (gamepad1.dpadDownWasPressed()){
                 robot.follower.setPose(resetPose);
             }
-            if (gamepad1.dpadRightWasPressed()){
+            if (gamepad2.dpadRightWasPressed()){
                 robot.turret.lockedTurretTarget += Math.toRadians(5);
             }
-            if (gamepad1.dpadLeftWasPressed()){
+            if (gamepad2.dpadLeftWasPressed()){
                 robot.turret.lockedTurretTarget -= Math.toRadians(5);
             }
-            if (gamepad1.leftBumperWasPressed()){
+            if (gamepad2.leftBumperWasPressed()){
                 robot.turret.lockTurret = !robot.turret.lockTurret;
             }
             if (gamepad1.rightBumperWasPressed()){
@@ -81,8 +86,15 @@ public class TeleOp extends LinearOpMode {
                 robot.transfer.setHoldMode();
             }
 
+
             if (gamepad1.rightTriggerWasPressed()){
                 fire.start();
+            }
+            if (gamepad2.dpadDownWasPressed()){
+                targetRPM -= 100;
+            }
+            if (gamepad2.dpadUpWasPressed()){
+                targetRPM += 100;
             }
 
             //WHen back button is pressed, swap the team ur on
@@ -108,8 +120,12 @@ public class TeleOp extends LinearOpMode {
             //ShotCalc update adjusts the RPM necessary to get into the goal
             robot.shotCalc.update(robot.follower.pose(), robot.getTeam(),
                     Vector.pedroVelocityToVector(robot.follower.velocity()));
+            if (autoShoot){
+                robot.flywheel.setTargetRPM(robot.shotCalc.getRPM());
+            } else {
+                robot.flywheel.setTargetRPM(targetRPM);
+            }
 //            robot.flywheel.setTargetRPM(robot.shotCalc.getRPM());
-            robot.flywheel.setTargetRPM(robot.shotCalc.getRPM());
 //            robot.flywheel.setTargetRPM(0.0);
 
             robot.hood.setPitchTarget(robot.shotCalc.getPitch());
@@ -119,7 +135,13 @@ public class TeleOp extends LinearOpMode {
             telemetry.addData("Time", "%.2f", loopMiliseconds);
             telemetry.addData("pose", robot.follower.pose());
             telemetry.addData("distance to goal", robot.shotCalc.getDistance());
-            telemetry.addData("target rpm", robot.shotCalc.getRPM());
+            if (autoShoot){
+                telemetry.addData("target rpm", robot.shotCalc.getRPM());
+            } else {
+                telemetry.addData("target rpm", targetRPM);
+            }
+            telemetry.addData("is turret locked", robot.turret.lockTurret);
+            telemetry.addData("auto shoot", autoShoot);
             telemetry.addData("current rpm of the robot", robot.flywheel.getRPM());
             if (robot.turret.getTurretTarget() != null){
                 telemetry.addData("turret target", robot.turret.getTurretTarget() * (180.0/Math.PI));

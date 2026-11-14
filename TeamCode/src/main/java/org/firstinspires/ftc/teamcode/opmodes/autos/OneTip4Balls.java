@@ -116,7 +116,7 @@ public class OneTip4Balls extends LinearOpMode {
                 telemetry.addData("Position", robot.follower.pose());
                 telemetry.addData("Shot Count", shotCount);
                 telemetry.update();
-                robot.flywheel.setTargetRPM(3350.0);
+                robot.flywheel.setTargetRPM(robot.shotCalc.getRPM());
                 robot.turret.calcTurretTarget(
                         robot.aimCalc.calcRawTargetYaw(robot.follower.pose()),
                         robot.follower.pose().heading()

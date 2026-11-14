@@ -36,7 +36,7 @@ public class OneTipRepeated extends LinearOpMode{
         private final Pose start = poseFactory.of(52.8, 8.2, 90);
         private final Pose loadingZonePoint = poseFactory.of(9.52, 7.68, 180);
 //        private final Pose start_2 = poseFactory.of(56.648, 7.6757, 179.9487);
-        private final Pose parkPoint = poseFactory.of(6.7, 92.54, 90);
+            private final Pose parkPoint = poseFactory.of(9.63, 92.54, 90);
         private final Pose parkPointControl = poseFactory.of(9.4716, 20.3571, 90);
 
         public Path toLoadingZone() {
@@ -101,6 +101,7 @@ public class OneTipRepeated extends LinearOpMode{
             robot = new Robot(hardwareMap, telemetry);
             fire = new Fire(robot);
             robot.follower.setPose(start);
+
             Robot.autoHasRan = true;
             timer = new Timer();
             waitForStart();
@@ -115,13 +116,12 @@ public class OneTipRepeated extends LinearOpMode{
                 telemetry.addData("Position", robot.follower.pose());
                 telemetry.addData("Shot Count", shotCount);
                 telemetry.update();
-                robot.flywheel.setTargetRPM(3350.0);
+                robot.flywheel.setTargetRPM(3470.0);
                 robot.turret.calcTurretTarget(
                         robot.aimCalc.calcRawTargetYaw(robot.follower.pose()),
                         robot.follower.pose().heading()
                 );
                 robot.hood.setPitchTarget(0.0);
-                robot.turret.lockTurret = true;
                 Robot.setTeleOpStartPose(robot.follower.pose());
                 robot.update();
             }

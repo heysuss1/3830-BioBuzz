@@ -30,6 +30,7 @@ public class TeleOp extends LinearOpMode {
     public static double kP, kI, kD, kF;
     public static double hive_x = 57.6;
     public static double hive_y = 51.8;
+    Pose resetPose = new Pose(6.2, 8.2, Math.toRadians(90));
     public void runOpMode() {
         robot = new Robot(hardwareMap, telemetry);
         fire = new Fire(robot);
@@ -59,13 +60,17 @@ public class TeleOp extends LinearOpMode {
             robot.setRobotCentricDriving(gamepad1); //robot centric for now, can be field
 
 
-            if (gamepad2.dpadUpWasPressed()){
+
+            if (gamepad1.dpadDownWasPressed()){
+                robot.follower.setPose(resetPose);
+            }
+            if (gamepad1.dpadRightWasPressed()){
                 robot.turret.lockedTurretTarget += Math.toRadians(5);
             }
-            if (gamepad2.dpadDownWasPressed()){
+            if (gamepad1.dpadLeftWasPressed()){
                 robot.turret.lockedTurretTarget -= Math.toRadians(5);
             }
-            if (gamepad2.rightBumperWasPressed()){
+            if (gamepad1.leftBumperWasPressed()){
                 robot.turret.lockTurret = !robot.turret.lockTurret;
             }
             if (gamepad1.rightBumperWasPressed()){

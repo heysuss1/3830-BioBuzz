@@ -6,6 +6,7 @@ import com.pedropathing.math.Pose;
 import com.pedropathing.paths.Path;
 import com.pedropathing.utils.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot;
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.teamcode.commands.Fire;
 
 
 @Autonomous(name = "1 tip + 4 balls")
+@Disabled
 public class OneTip4Balls extends LinearOpMode {
     enum PathState{
         START,

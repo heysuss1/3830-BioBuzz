@@ -63,7 +63,7 @@ public class TeleOp extends LinearOpMode {
 
 
 
-            if (gamepad2.dpadLeftWasPressed()){
+            if (gamepad2.squareWasPressed()){
                 autoShoot = !autoShoot;
             }
             if (gamepad1.dpadDownWasPressed()){
@@ -103,7 +103,7 @@ public class TeleOp extends LinearOpMode {
             }
 
             //When dpad up is pressed, turns always have shooter on/off
-            if (gamepad1.dpadUpWasPressed()){
+            if (gamepad2.dpadUpWasPressed()){
                 robot.flywheel.setAlwaysShoot(!robot.flywheel.getAlwaysShoot());
             }
 
@@ -122,18 +122,22 @@ public class TeleOp extends LinearOpMode {
                     Vector.pedroVelocityToVector(robot.follower.velocity()));
             if (autoShoot){
                 robot.flywheel.setTargetRPM(robot.shotCalc.getRPM());
+                robot.hood.setPitchTarget(robot.shotCalc.getPitch());
             } else {
                 robot.flywheel.setTargetRPM(targetRPM);
+                robot.hood.setPitchTarget(0.0);
             }
 //            robot.flywheel.setTargetRPM(robot.shotCalc.getRPM());
 //            robot.flywheel.setTargetRPM(0.0);
 
-            robot.hood.setPitchTarget(robot.shotCalc.getPitch());
             fire.update();
             robot.update();
             robot.setTeam(team);
             telemetry.addData("Time", "%.2f", loopMiliseconds);
-            telemetry.addData("pose", robot.follower.pose());
+            telemetry.addData("x", robot.follower.pose().x());
+            telemetry.addData("y", robot.follower.pose().y());
+            telemetry.addData("heading", Math.toDegrees(robot.follower.pose().heading()));
+
             telemetry.addData("distance to goal", robot.shotCalc.getDistance());
             if (autoShoot){
                 telemetry.addData("target rpm", robot.shotCalc.getRPM());

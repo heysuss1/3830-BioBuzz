@@ -76,5 +76,4 @@ public class Constants {
         c.offsetUnits.set(DistanceUnit.INCH);
     });
 
-
 }

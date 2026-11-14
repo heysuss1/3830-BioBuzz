@@ -33,22 +33,22 @@ public class OneTipRepeated extends LinearOpMode{
 
         private final PoseFactory poseFactory = PoseFactory.degrees();
 
-        private final Pose start = poseFactory.of(56.1732, 7.4964, 180);
-        private final Pose loadingZonePoint = poseFactory.of(8.7642, 7.7186, 180);
-        private final Pose start_2 = poseFactory.of(56.648, 7.6757, 179.9487);
-        private final Pose parkPoint = poseFactory.of(9.0308, 92.9344, -89.652);
-        private final Pose parkPointControl = poseFactory.of(9.4716, 20.3571, 0);
+        private final Pose start = poseFactory.of(52.8, 8.2, 90);
+        private final Pose loadingZonePoint = poseFactory.of(9.52, 7.68, 180);
+//        private final Pose start_2 = poseFactory.of(56.648, 7.6757, 179.9487);
+        private final Pose parkPoint = poseFactory.of(6.7, 92.54, 90);
+        private final Pose parkPointControl = poseFactory.of(9.4716, 20.3571, 90);
 
         public Path toLoadingZone() {
             return Paths.line(start, loadingZonePoint).linear(start, loadingZonePoint);
         }
 
         public Path backToShoot() {
-            return Paths.line(loadingZonePoint, start).reverseTangent();
+            return Paths.line(loadingZonePoint, start).linear(loadingZonePoint, start);
         }
 
         public Path toPark() {
-            return Paths.curve(start, parkPointControl, parkPoint).reverseTangent();
+            return Paths.curve(start, parkPointControl, parkPoint).constant(90);
         }
         public void setState(PathState state){
             this.state = state;
@@ -116,7 +116,6 @@ public class OneTipRepeated extends LinearOpMode{
                 telemetry.addData("Shot Count", shotCount);
                 telemetry.update();
                 robot.flywheel.setTargetRPM(3350.0);
-                robot.aimCalc.calcRawTargetYaw(new Pose(0.0, 0.0));
                 robot.turret.calcTurretTarget(
                         robot.aimCalc.calcRawTargetYaw(robot.follower.pose()),
                         robot.follower.pose().heading()

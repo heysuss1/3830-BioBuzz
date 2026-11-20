@@ -54,6 +54,9 @@ public class Turret {
     }
 
 
+    public DcMotorEx getTurretMotor(){
+        return turretMotor;
+    }
     public double calcTurretTarget(Double targetYaw, double currentYaw) { //the *setter* method for the turret
         double turretTargetRaw = targetYaw - currentYaw;
         double turretTargetTransformed = layeredTurretTransform(turretTargetRaw, turretLayer);

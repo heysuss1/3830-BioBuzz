@@ -7,11 +7,14 @@ import com.pedropathing.api.PoseFactory;
 import com.pedropathing.math.Pose;
 import com.pedropathing.paths.Path;
 import com.pedropathing.utils.Timer;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Robot;
 import org.firstinspires.ftc.teamcode.commands.Fire;
 
+
+@Autonomous(name = "Park auto")
 public class NewDiddyAuto extends LinearOpMode {
     enum PathState{
         START,
@@ -24,7 +27,7 @@ public class NewDiddyAuto extends LinearOpMode {
     Robot robot;
     int shotCount = 0;
 
-    DiddyAuto.PathState state = DiddyAuto.PathState.START;
+    PathState state = PathState.PARKING;
     Timer fullAutoTimer;
     Fire fire;
     Timer timer;
@@ -32,12 +35,12 @@ public class NewDiddyAuto extends LinearOpMode {
     private final PoseFactory poseFactory = PoseFactory.degrees();
 
     private final Pose start = poseFactory.of(6.1747, 114.8531, 90);
-    private final Pose point1 = poseFactory.of(6.0763, 133.426, 270);
+    private final Pose point1 = poseFactory.of(8.32786886484526, 133.426, 90);
 
     public Path toParking() {
         return Paths.line(start, point1).constant(point1);
     }
-    public void setState(DiddyAuto.PathState state){
+    public void setState(PathState state){
         this.state = state;
         timer.reset();
     }
@@ -45,7 +48,7 @@ public class NewDiddyAuto extends LinearOpMode {
         switch (state){
             case PARKING:
                 robot.follower.follow(toParking());
-                setState(DiddyAuto.PathState.DONE);
+                setState(PathState.DONE);
                 break;
             case DONE:
                 break;
